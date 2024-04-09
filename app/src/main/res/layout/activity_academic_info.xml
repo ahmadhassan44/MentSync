@@ -34,10 +34,7 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:hint="Select Discipline"
-            app:hint="Select Discipline"
-            app:hintTextColor="#938585">
+            android:layout_weight="1">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView3"
