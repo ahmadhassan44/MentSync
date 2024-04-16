@@ -16,6 +16,5 @@ public class AcademicInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_academic_info);
 
-        g
     }
 }
