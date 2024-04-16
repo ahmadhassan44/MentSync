@@ -19,6 +19,13 @@ public class RoleActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), PersonalInfoActivity.class));
             }
         });
+
+        findViewById(R.id.cancelbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+            }
+        });
     }
 
 }

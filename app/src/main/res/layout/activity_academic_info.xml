@@ -34,10 +34,7 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:hint="Select Discipline"
-            app:hint="Select Discipline"
-            app:hintTextColor="#938585">
+            android:layout_weight="1">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView3"
@@ -53,5 +50,17 @@
             android:layout_weight="1"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/cancelbtn3"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="Cancel"
+        android:textColor="@color/md_theme_dark_inversePrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
