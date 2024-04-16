@@ -18,5 +18,11 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),AcademicInfoActivity.class));
             }
         });
+        findViewById(R.id.cancelbtn2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+            }
+        });
     }
 }
