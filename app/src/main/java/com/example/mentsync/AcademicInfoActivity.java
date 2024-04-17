@@ -31,6 +31,12 @@ public class AcademicInfoActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Item"+item,Toast.LENGTH_SHORT).show();
             }
         });
+        findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),PasswordActivity.class));
+            }
+        });
         findViewById(R.id.cancelbtn3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
