@@ -31,11 +31,11 @@ public class AcademicInfoActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Item"+item,Toast.LENGTH_SHORT).show();
             }
         });
-//        findViewById(R.id.cancelbtn3).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
-//            }
-//        });
+        findViewById(R.id.cancelbtn3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+            }
+        });
     }
 }
