@@ -34,6 +34,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Your name"
@@ -46,9 +47,12 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cmsedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="CMS"
+                android:inputType="number"
+                android:maxLength="6"
                 android:singleLine="true"
                 android:textColor="@color/md_theme_dark_onPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,7 +62,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editTextTextEmailAddress5"
+                android:id="@+id/emailedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
