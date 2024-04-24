@@ -8,13 +8,14 @@ import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.view.View;
 import android.widget.Toast;
 
 public class AcademicInfoActivity extends AppCompatActivity {
 
-
+    User u=User.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,19 +23,44 @@ public class AcademicInfoActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter1=new ArrayAdapter<>(getApplicationContext(),R.layout.list_item,new String[]{"BSCS","BSDS","BESE","BEEE"});
         AutoCompleteTextView selectdisp=findViewById(R.id.selectdisp);
-
         selectdisp.setAdapter(adapter1);
-        selectdisp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item=adapter1.getItem(position).toString();
-                Toast.makeText(getApplicationContext(),"Item"+item,Toast.LENGTH_SHORT).show();
-            }
-        });
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),PasswordActivity.class));
+                String discipline = ((AutoCompleteTextView) findViewById(R.id.selectdisp)).getText().toString();
+                String semesterText = ((EditText) findViewById(R.id.semesteredit)).getText().toString();
+                String cgpaText = ((EditText) findViewById(R.id.gpaedit)).getText().toString();
+                if (discipline.isEmpty()) {
+                    ((AutoCompleteTextView) findViewById(R.id.selectdisp)).setError("Can't be empty");
+                    return;
+                }
+                if (semesterText.isEmpty()) {
+                    ((EditText) findViewById(R.id.semesteredit)).setError("Can't be empty");
+                    return;
+                }
+                if (cgpaText.isEmpty()) {
+                    ((EditText) findViewById(R.id.gpaedit)).setError("Can't be empty");
+                    return;
+                }
+                try {
+                    int semester = Integer.parseInt(semesterText);
+                    double cgpa = Double.parseDouble(cgpaText);
+                    if (semester < 1 || semester > 8) {
+                        ((EditText) findViewById(R.id.semesteredit)).setError("Invalid Semester");
+                        return;
+                    }
+                    if (cgpa < 0.0 || cgpa > 4.0) {
+                        ((EditText) findViewById(R.id.gpaedit)).setError("Invalid CGPA");
+                        return;
+                    }
+                    User u = User.getInstance();
+                    u.setDiscipline(discipline);
+                    u.setSemester(semester);
+                    u.setCGPA(cgpa);
+                    startActivity(new Intent(getApplicationContext(), PasswordActivity.class));
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Please enter valid numbers", Toast.LENGTH_LONG).show();
+                }
             }
         });
         findViewById(R.id.cancelbtn3).setOnClickListener(new View.OnClickListener() {

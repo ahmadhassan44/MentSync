@@ -49,11 +49,10 @@
         app:layout_constraintVertical_bias="0.6">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordedit"
+            android:id="@+id/loginpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_lock_24"
-            android:hint="hint"
             android:singleLine="true"
             android:textColor="@color/md_theme_dark_inversePrimary" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +74,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailedit"
+            android:id="@+id/loginemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_person_24"

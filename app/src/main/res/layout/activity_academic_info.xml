@@ -34,8 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Academic Info"
-            android:textColor="@color/md_theme_dark_onPrimary"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/md_theme_dark_inversePrimary"
             android:textSize="34sp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:inputType="none"
                 android:pointerIcon="arrow"
-                android:textColor="@color/md_theme_dark_onPrimary"></AutoCompleteTextView>
+                android:textColor="@color/md_theme_dark_inversePrimary"></AutoCompleteTextView>
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -63,11 +63,13 @@
             android:hint="Semester">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/semesteredit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:maxLength="1"
                 android:singleLine="true"
-                android:textColor="@color/md_theme_dark_onPrimary"/>
+                android:textColor="@color/md_theme_dark_inversePrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -76,12 +78,12 @@
             android:hint="CGPA">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gpaedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:inputType="numberDecimal"
-                android:textColor="@color/md_theme_dark_onPrimary"
-                />
+                android:singleLine="true"
+                android:textColor="@color/md_theme_dark_inversePrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
