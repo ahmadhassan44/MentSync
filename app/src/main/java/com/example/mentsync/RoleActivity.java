@@ -27,7 +27,7 @@ public class RoleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 u.setRole("Mentor");
-                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+                startActivity(new Intent(getApplicationContext(),PersonalInfoActivity.class));
             }
         });
         findViewById(R.id.cancelbtn).setOnClickListener(new View.OnClickListener() {

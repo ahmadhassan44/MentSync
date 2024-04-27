@@ -78,12 +78,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_person_24"
+            android:drawableTint="@color/md_theme_dark_inversePrimary"
             android:singleLine="true"
             android:textColor="@color/md_theme_dark_inversePrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/forgotpass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

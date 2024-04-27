@@ -51,20 +51,8 @@ public class LoginSignupActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace(); // Log the exception
         }
-
         String email=((EditText)findViewById(R.id.loginemail)).getText().toString();
         String password=((EditText)findViewById(R.id.loginpassword)).getText().toString();
-        findViewById(R.id.loginbtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!(email.isEmpty() || password.isEmpty()))
-                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                else if(password.isEmpty())
-                    ((EditText)findViewById(R.id.loginpassword)).setError("Can't be empty");
-                else if(email.isEmpty())
-                    ((EditText)findViewById(R.id.loginpassword)).setError("Can't be empty");
-            }
-        });
         findViewById(R.id.newaccbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +60,6 @@ public class LoginSignupActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RoleActivity.class));
             }
         });
-
         findViewById(R.id.loginbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,10 +79,10 @@ public class LoginSignupActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    if(response.equals("Logged in"))
+                                    if(response.equals("Logged in!"))
                                     {
-                                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                                     }
                                     else
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
@@ -121,13 +108,15 @@ public class LoginSignupActivity extends AppCompatActivity {
                 }
             }
         });
+        findViewById(R.id.forgotpass).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
         boolean validate(String email,String password)
         {
             return true;
         }
-
-
-
-
 }
