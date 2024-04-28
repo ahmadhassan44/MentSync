@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:ellipsize="end"
     android:maxLines="1"
+    android:padding="16dp"
     android:textAppearance="?attr/textAppearanceSubtitle1"
     android:background="@color/cardview_light_background"
     android:theme="@style/MentSyncTheme"

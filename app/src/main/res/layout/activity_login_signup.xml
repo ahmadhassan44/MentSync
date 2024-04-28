@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginSignupActivity">
+    tools:context=".Login.LoginSignupActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -49,10 +49,10 @@
         app:layout_constraintVertical_bias="0.6">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_lock_24"
-            android:hint="hint"
             android:singleLine="true"
             android:textColor="@color/md_theme_dark_inversePrimary" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -74,15 +74,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_person_24"
+            android:drawableTint="@color/md_theme_dark_inversePrimary"
             android:singleLine="true"
             android:textColor="@color/md_theme_dark_inversePrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/forgotpass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

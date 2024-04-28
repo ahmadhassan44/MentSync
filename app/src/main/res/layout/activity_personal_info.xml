@@ -19,14 +19,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Personal Info"
-            android:textAlignment="textStart"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/md_theme_dark_onPrimary"
+            android:textColor="@color/md_theme_dark_inversePrimary"
             android:textSize="34sp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -34,11 +31,12 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Your name"
                 android:singleLine="true"
-                android:textColor="@color/md_theme_dark_onPrimary" />
+                android:textColor="@color/md_theme_dark_inversePrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -46,11 +44,14 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cmsedit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="CMS"
+                android:inputType="number"
+                android:maxLength="6"
                 android:singleLine="true"
-                android:textColor="@color/md_theme_dark_onPrimary" />
+                android:textColor="@color/md_theme_dark_inversePrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +59,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editTextTextEmailAddress5"
+                android:id="@+id/loginemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -66,7 +67,7 @@
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:singleLine="true"
-                android:textColor="@color/md_theme_dark_onPrimary" />
+                android:textColor="@color/md_theme_dark_inversePrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
