@@ -1,15 +1,18 @@
-package com.example.mentsync;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.mentsync.Signup;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mentsync.Login.LoginSignupActivity;
+import com.example.mentsync.R;
+
 public class PersonalInfoActivity extends AppCompatActivity {
 
-    User u=User.getInstance();
+    NewUserData u= NewUserData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +29,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                     u.setEmail(email);
                     u.setCMS(cms);
                     u.setName(name);
-                    startActivity(new Intent(getApplicationContext(),AcademicInfoActivity.class));
+                    startActivity(new Intent(getApplicationContext(), AcademicInfoActivity.class));
                 }
                 if(name.isEmpty())
                     ((EditText) findViewById(R.id.nameedit)).setError("Can't be empty");
@@ -41,7 +44,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
         findViewById(R.id.cancelbtn2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
             }
         });
     }

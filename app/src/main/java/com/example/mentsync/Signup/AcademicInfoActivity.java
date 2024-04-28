@@ -1,21 +1,21 @@
-package com.example.mentsync;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.mentsync.Signup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.AdapterView;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mentsync.Login.LoginSignupActivity;
+import com.example.mentsync.R;
 
 public class AcademicInfoActivity extends AppCompatActivity {
 
-    User u=User.getInstance();
+    NewUserData u= NewUserData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public class AcademicInfoActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.gpaedit)).setError("Invalid CGPA");
                         return;
                     }
-                    User u = User.getInstance();
+                    NewUserData u = NewUserData.getInstance();
                     u.setDiscipline(discipline);
                     u.setSemester(semester);
                     u.setCGPA(cgpa);
@@ -66,7 +66,7 @@ public class AcademicInfoActivity extends AppCompatActivity {
         findViewById(R.id.cancelbtn3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
             }
         });
     }

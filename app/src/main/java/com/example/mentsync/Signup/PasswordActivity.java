@@ -1,13 +1,12 @@
-package com.example.mentsync;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.mentsync.Signup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,6 +14,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mentsync.AfterLogin.HomeActivity;
+import com.example.mentsync.IPAddress;
+import com.example.mentsync.Login.LoginSignupActivity;
+import com.example.mentsync.R;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
@@ -27,7 +30,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class PasswordActivity extends AppCompatActivity {
-    User u=User.getInstance();
+    NewUserData u= NewUserData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +64,7 @@ public class PasswordActivity extends AppCompatActivity {
                 {
                     u.setPassword(pass1);
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                    String url ="https://"+IPAddress.ipaddress+"/signup.php";
+                    String url ="https://"+ IPAddress.ipaddress+"/signup.php";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
@@ -70,7 +73,7 @@ public class PasswordActivity extends AppCompatActivity {
                                     if(response.equals("Account created Successfully"))
                                     {
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                     }
                                     else
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
@@ -108,7 +111,7 @@ public class PasswordActivity extends AppCompatActivity {
         findViewById(R.id.cancelbtn1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),LoginSignupActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
             }
         });
     }

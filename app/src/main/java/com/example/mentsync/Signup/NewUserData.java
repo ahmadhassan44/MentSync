@@ -1,7 +1,7 @@
-package com.example.mentsync;
+package com.example.mentsync.Signup;
 
-public class User {
-    private static User instance;
+public class NewUserData {
+    private static NewUserData instance;
     private String role;
     private String name;
     private String email;
@@ -10,12 +10,12 @@ public class User {
     private String discipline;
     private int semester;
     private double CGPA;
-    private User() {}
-    public static User getInstance()
+    private NewUserData() {}
+    public static NewUserData getInstance()
     {
         if(instance==null)
         {
-            instance=new User();
+            instance=new NewUserData();
             return instance;
         }
         return instance;

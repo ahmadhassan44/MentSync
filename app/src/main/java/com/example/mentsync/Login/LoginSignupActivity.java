@@ -1,4 +1,4 @@
-package com.example.mentsync;
+package com.example.mentsync.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mentsync.AfterLogin.HomeActivity;
+import com.example.mentsync.IPAddress;
+import com.example.mentsync.R;
+import com.example.mentsync.Signup.RoleActivity;
+import com.example.mentsync.Signup.NewUserData;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
@@ -56,7 +61,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         findViewById(R.id.newaccbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User u=User.getInstance();
+                NewUserData u= NewUserData.getInstance();
                 startActivity(new Intent(getApplicationContext(), RoleActivity.class));
             }
         });
@@ -73,7 +78,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                 if(!emailOrCMS.isEmpty() && !password.isEmpty())
                 {
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                    String url ="https://"+IPAddress.ipaddress+"/signin.php";
+                    String url ="https://"+ IPAddress.ipaddress+"/signin.php";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
@@ -82,7 +87,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                                     if(response.equals("Logged in!"))
                                     {
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                     }
                                     else
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
