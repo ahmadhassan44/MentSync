@@ -77,6 +77,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 
                 if(!emailOrCMS.isEmpty() && !password.isEmpty())
                 {
+                    findViewById(R.id.loginprogress).setVisibility(View.VISIBLE);
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     String url ="https://"+ IPAddress.ipaddress+"/signin.php";
 
@@ -90,11 +91,15 @@ public class LoginSignupActivity extends AppCompatActivity {
                                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                     }
                                     else
+                                    {
+                                        findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
                             Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
                         }
                     }){
@@ -116,7 +121,7 @@ public class LoginSignupActivity extends AppCompatActivity {
         findViewById(R.id.forgotpass).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
             }
         });
     }

@@ -62,6 +62,7 @@ public class PasswordActivity extends AppCompatActivity {
             String pass2=((EditText)findViewById(R.id.pass2)).getText().toString();
                 if(!pass1.isEmpty() && !pass2.isEmpty() && pass1.equals(pass2))
                 {
+                    findViewById(R.id.signupprog).setVisibility(View.VISIBLE);
                     u.setPassword(pass1);
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     String url ="https://"+ IPAddress.ipaddress+"/signup.php";
@@ -76,11 +77,15 @@ public class PasswordActivity extends AppCompatActivity {
                                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                     }
                                     else
+                                    {
+                                        findViewById(R.id.signupprog).setVisibility(View.INVISIBLE);
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            findViewById(R.id.signupprog).setVisibility(View.INVISIBLE);
                             Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
                         }
                     }){
@@ -94,6 +99,7 @@ public class PasswordActivity extends AppCompatActivity {
                             paramV.put("role", u.getRole());
                             paramV.put("semester",Integer.toString(u.getSemester()));
                             paramV.put("cgpa", Double.toString(u.getCGPA()));
+                            paramV.put("image", u.getImage());
                             return paramV;
                         }
                     };
