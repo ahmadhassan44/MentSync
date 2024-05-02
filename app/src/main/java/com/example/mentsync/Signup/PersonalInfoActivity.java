@@ -21,9 +21,9 @@ public class PersonalInfoActivity extends AppCompatActivity {
         findViewById(R.id.next1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name=((EditText) findViewById(R.id.nameedit)).getText().toString();
-                String cms=((EditText) findViewById(R.id.cmsedit)).getText().toString();
-                String email=((EditText) findViewById(R.id.loginemail)).getText().toString();
+                String name=((EditText) findViewById(R.id.nameedit)).getText().toString().trim();
+                String cms=((EditText) findViewById(R.id.cmsedit)).getText().toString().trim();
+                String email=((EditText) findViewById(R.id.loginemail)).getText().toString().trim();
                 if(!(email.isEmpty() || cms.isEmpty() || name.isEmpty() || cms.length()<6))
                 {
                     u.setEmail(email);

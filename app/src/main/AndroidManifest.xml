@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,22 +18,29 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Signup.SetProfilePicActivity"
+            android:exported="false" />
+        <activity
             android:name=".AfterLogin.HomeActivity"
-            android:exported="false"></activity>
-        <activity
-            android:name=".PasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".AcademicInfoActivity"
+            android:name=".Signup.PasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".PersonalInfoActivity"
+            android:name=".Signup.AcademicInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".RoleActivity"
+            android:name=".Signup.PersonalInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Signup.RoleActivity"
             android:exported="false" />
         <activity
             android:name=".Login.LoginSignupActivity"
+            android:exported="true"> <!-- this means to communicate with external request -->
+        </activity>
+        <activity
+            android:name=".Login.ForgotPasswordActivity"
             android:exported="true"> <!-- this means to communicate with external request -->
         </activity>
         <activity

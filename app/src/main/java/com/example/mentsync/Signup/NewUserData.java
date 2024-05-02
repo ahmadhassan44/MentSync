@@ -10,6 +10,7 @@ public class NewUserData {
     private String discipline;
     private int semester;
     private double CGPA;
+    private String Image="0";
     private NewUserData() {}
     public static NewUserData getInstance()
     {
@@ -54,6 +55,10 @@ public class NewUserData {
         this.semester = semester;
     }
 
+    public void setImage(String image) {
+        Image = image;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -84,5 +89,9 @@ public class NewUserData {
 
     public String getRole() {
         return role;
+    }
+
+    public String getImage() {
+        return Image;
     }
 }

@@ -57,7 +57,7 @@ public class AcademicInfoActivity extends AppCompatActivity {
                     u.setDiscipline(discipline);
                     u.setSemester(semester);
                     u.setCGPA(cgpa);
-                    startActivity(new Intent(getApplicationContext(), PasswordActivity.class));
+                    startActivity(new Intent(getApplicationContext(),SetProfilePicActivity.class));
                 } catch (NumberFormatException e) {
                     Toast.makeText(getApplicationContext(), "Please enter valid numbers", Toast.LENGTH_LONG).show();
                 }

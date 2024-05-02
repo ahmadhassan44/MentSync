@@ -38,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
                             // Parse the response and extract the IP address
                             JSONObject jsonResponse = new JSONObject(response);
                             IPAddress.ipaddress = jsonResponse.getString("ipAddress");
-
-                            // Display the fetched IP address as a Toast
-                            Toast.makeText(getApplicationContext(), "Fetched IP Address: " + IPAddress.ipaddress, Toast.LENGTH_LONG).show();
-
-                            // You can now use this IP address in other parts of your app
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error parsing IP address.", Toast.LENGTH_LONG).show();
                         }
@@ -55,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Error fetching IP address: " + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
-
         // Add the request to the queue
         queue.add(stringRequest);
         startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
