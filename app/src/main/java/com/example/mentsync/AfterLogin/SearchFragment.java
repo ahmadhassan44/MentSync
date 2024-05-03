@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,8 +23,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,12 +50,13 @@ public class SearchFragment extends Fragment {
         RecyclerView searchUserRecyclerView=searchFragment.findViewById(R.id.searchuseritem);
         searchUserRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         SearchView searchview=searchFragment.findViewById(R.id.searchuser);
+
+        ArrayList<SearchUserItemModel> returnedUsers=new ArrayList<SearchUserItemModel>();
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 RequestQueue requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -59,19 +64,29 @@ public class SearchFragment extends Fragment {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                JSONObject user=
-
+                                try {
+                                    JSONObject returnedUsersJSONObject=new JSONObject(response);
+                                    JSONArray returnedUsersArray=returnedUsersJSONObject.optJSONArray("users");
+                                    for(int i=0;i<returnedUsersArray.length();i++)
+                                    {
+                                        JSONObject singleUser=returnedUsersArray.getJSONObject(i);
+                                        returnedUsers.add(new SearchUserItemModel(singleUser.optString("profile_pic"),singleUser.optString("name")));
+                                    }
+                                    SearchUserAdapter adapter=new SearchUserAdapter(getActivity().getApplicationContext(),returnedUsers);
+                                    searchUserRecyclerView.setAdapter(adapter);
+                                } catch (JSONException e) {
+                                }
                             }
 
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(getActivity().getApplicationContext(),"Erro searching Users",Toast.LENGTH_LONG).show();
                     }
                 }){
                     protected Map<String, String> getParams(){
                         Map<String, String> paramV = new HashMap<>();
-                        paramV.put("searchuser",newText)
+                        paramV.put("searchuser",newText);
                         return paramV;
                     }
                 };
