@@ -125,8 +125,4 @@ public class LoginSignupActivity extends AppCompatActivity {
             }
         });
     }
-        boolean validate(String email,String password)
-        {
-            return true;
-        }
 }
