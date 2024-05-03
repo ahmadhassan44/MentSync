@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                             // Parse the response and extract the IP address
                             JSONObject jsonResponse = new JSONObject(response);
                             IPAddress.ipaddress = jsonResponse.getString("ipAddress");
+                            Toast.makeText(getApplicationContext(),IPAddress.ipaddress,Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(), "Error parsing IP address.", Toast.LENGTH_LONG).show();
                         }
