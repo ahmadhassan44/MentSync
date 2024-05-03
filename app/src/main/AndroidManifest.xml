@@ -22,7 +22,8 @@
             android:exported="false" />
         <activity
             android:name=".AfterLogin.HomeActivity"
-            android:exported="false" />
+            android:exported="true" >
+        </activity>
         <activity
             android:name=".Signup.PasswordActivity"
             android:exported="false" />
@@ -37,11 +38,11 @@
             android:exported="false" />
         <activity
             android:name=".Login.LoginSignupActivity"
-            android:exported="true"> <!-- this means to communicate with external request -->
+            android:exported="true">
         </activity>
         <activity
             android:name=".Login.ForgotPasswordActivity"
-            android:exported="true"> <!-- this means to communicate with external request -->
+            android:exported="true">
         </activity>
         <activity
             android:name=".MainActivity"
