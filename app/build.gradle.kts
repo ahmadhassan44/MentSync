@@ -37,6 +37,7 @@ dependencies {
     implementation ("com.android.volley:volley:1.2.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
     implementation("com.karumi:dexter:6.0.2")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     testImplementation("junit:junit:4.13.2")

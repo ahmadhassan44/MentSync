@@ -139,8 +139,4 @@ public class LoginSignupActivity extends AppCompatActivity {
             }
         });
     }
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onBackPressed() {
-    }
 }
