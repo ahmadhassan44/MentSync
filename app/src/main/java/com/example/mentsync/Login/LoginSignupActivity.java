@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mentsync.AfterLogin.HomeActivity;
 import com.example.mentsync.AfterLogin.LoggedInUser;
+import com.example.mentsync.AfterLogin.ProfileFragment;
 import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
 import com.example.mentsync.Signup.RoleActivity;
@@ -76,7 +77,6 @@ public class LoginSignupActivity extends AppCompatActivity {
         findViewById(R.id.loginbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoggedInUser currentUser=LoggedInUser.getInstance();
                 String emailOrCMS= ((EditText)findViewById(R.id.loginemail)).getText().toString();
                 String password= ((EditText)findViewById(R.id.loginpassword)).getText().toString();
                 if(emailOrCMS.isEmpty())
@@ -95,21 +95,26 @@ public class LoginSignupActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     try {
-                                        JSONObject jsonObject = new JSONObject(response);
-                                        JSONArray jsonArray = jsonObject.optJSONArray("user_data"); // Use optJSONArray to avoid null
-
-                                        if (jsonArray != null) {
-                                            for (int i = 0; i < jsonArray.length(); i++) {
-                                                JSONObject jo = jsonArray.getJSONObject(i);
-                                                 currentUser.setUser_id(jo.optInt("u_id", -1));
-                                            }
-                                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                                        }
+                                       JSONObject jsonresponse=new JSONObject(response);
+                                       if (jsonresponse.getBoolean("success"))
+                                       {
+                                           JSONObject user=jsonresponse.getJSONObject("user_data");
+                                           LoggedInUser currentUser=LoggedInUser.getInstance();
+                                           currentUser.setUser_id(user.optInt("u_id"));
+                                           currentUser.setProfilePic(user.optString("profile_pic"));
+                                           currentUser.setName(user.optString("name"));
+                                           startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                       }
+                                       else
+                                       {
+                                           Toast.makeText(getApplicationContext(),jsonresponse.getString("message"), Toast.LENGTH_LONG).show();
+                                       }
                                     } catch (JSONException e) {
-                                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                                     }
                                     findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
                                 }
+
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
@@ -138,5 +143,11 @@ public class LoginSignupActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
             }
         });
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mentsync.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.ViewHolder> {
@@ -50,7 +48,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
         TextView name;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            image=itemView.findViewById(R.id.profilepic);
+            image=itemView.findViewById(R.id.profilepic3);
             name=itemView.findViewById(R.id.name);
         }
     }

@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
                     selectedFragment=new NotificationsFragment();
                 else if(item.getItemId()==R.id.nav_profile)
                     selectedFragment=new ProfileFragment();
+                switchFragment(selectedFragment,true);
                 return true;
             }
         });

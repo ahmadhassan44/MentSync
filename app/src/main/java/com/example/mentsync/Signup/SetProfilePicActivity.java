@@ -7,11 +7,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,8 +26,6 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class SetProfilePicActivity extends AppCompatActivity {
     NewUserData u=NewUserData.getInstance();
     Bitmap bitmap;
@@ -40,7 +36,7 @@ public class SetProfilePicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_profile_pic);
-        img=findViewById(R.id.profilepic);
+        img=findViewById(R.id.profilepic3);
 
         findViewById(R.id.cancelbtn4).setOnClickListener(new View.OnClickListener() {
             @Override

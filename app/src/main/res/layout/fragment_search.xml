@@ -2,34 +2,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/searchbar_scrolling_view_behavior">
-
-    </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <SearchView
-            android:id="@+id/searchuser"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Search"
-            app:layout_anchor="@id/searchuserbar">
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/searchuserbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Search" />
-        </SearchView>
-    </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchuseritem"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    android:layout_height="match_parent"/>

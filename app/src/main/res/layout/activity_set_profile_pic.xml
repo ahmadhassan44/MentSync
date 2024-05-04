@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilepic"
+        android:id="@+id/profilepic3"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginBottom="50dp"
