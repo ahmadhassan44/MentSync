@@ -25,7 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".AfterLogin.HomeActivity"
-            android:exported="true" >
+            android:exported="true">
         </activity>
         <activity
             android:name=".Signup.PasswordActivity"
@@ -55,7 +55,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
