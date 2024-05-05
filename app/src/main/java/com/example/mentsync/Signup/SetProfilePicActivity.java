@@ -47,8 +47,10 @@ public class SetProfilePicActivity extends AppCompatActivity {
         findViewById(R.id.skipbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.placeholder);
-                encodeBitmapImage(bitmap);
+                if (bitmap == null) {
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
+                    encodeBitmapImage(bitmap);
+                }
                 startActivity(new Intent(getApplicationContext(),PasswordActivity.class));
             }
         });

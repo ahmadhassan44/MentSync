@@ -16,7 +16,6 @@
     import android.widget.ImageView;
     import android.widget.TextView;
 
-
     import com.bumptech.glide.Glide;
     import com.example.mentsync.IPAddress;
     import com.example.mentsync.R;
