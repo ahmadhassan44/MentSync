@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -103,6 +104,10 @@ public class LoginSignupActivity extends AppCompatActivity {
                                            currentUser.setUser_id(user.optInt("u_id"));
                                            currentUser.setProfilePic(user.optString("profile_pic"));
                                            currentUser.setName(user.optString("name"));
+
+                                           //putting userdata into shared preferences
+                                           insertCurrentUserDataIntoSharedPreferences(user);
+
                                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                        }
                                        else
@@ -149,5 +154,16 @@ public class LoginSignupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finishAffinity();
+    }
+
+    void insertCurrentUserDataIntoSharedPreferences(JSONObject user) throws JSONException {
+        SharedPreferences pref=getSharedPreferences("user_data",MODE_PRIVATE);
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putInt("u_id",user.optInt("u_id"));
+        editor.putString("name",user.optString("name"));
+        editor.putString("email",user.getString("email"));
+        editor.putString("profile_pic",user.optString("profile_pic"));
+        editor.putBoolean("loggedin?",true);
+        editor.apply();
     }
 }
