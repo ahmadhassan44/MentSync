@@ -71,10 +71,10 @@ public class PasswordActivity extends AppCompatActivity {
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
-                                    if(response.equals("Account created Successfully"))
+                                    if(response.equals("Account created Successfully! You may Log in"))
                                     {
                                         Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), LoginSignupActivity.class));
                                     }
                                     else
                                     {

@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mentsync.AfterLogin.HomeActivity;
 import com.example.mentsync.AfterLogin.LoggedInUser;
 import com.example.mentsync.AfterLogin.ProfileFragment;
+import com.example.mentsync.AfterLogin.UserSessionManager;
 import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
 import com.example.mentsync.Signup.RoleActivity;
@@ -90,7 +91,6 @@ public class LoginSignupActivity extends AppCompatActivity {
                     findViewById(R.id.loginprogress).setVisibility(View.VISIBLE);
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     String url ="https://"+ IPAddress.ipaddress+"/signin.php";
-
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
                                 @Override
@@ -100,14 +100,9 @@ public class LoginSignupActivity extends AppCompatActivity {
                                        if (jsonresponse.getBoolean("success"))
                                        {
                                            JSONObject user=jsonresponse.getJSONObject("user_data");
-                                           LoggedInUser currentUser=LoggedInUser.getInstance();
-                                           currentUser.setUser_id(user.optInt("u_id"));
-                                           currentUser.setProfilePic(user.optString("profile_pic"));
-                                           currentUser.setName(user.optString("name"));
-
                                            //putting userdata into shared preferences
-                                           insertCurrentUserDataIntoSharedPreferences(user);
-
+                                           UserSessionManager newsession=new UserSessionManager(getApplicationContext());
+                                           newsession.startSession(getApplicationContext(),user);
                                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                        }
                                        else
