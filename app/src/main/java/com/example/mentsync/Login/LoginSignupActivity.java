@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mentsync.AfterLogin.HomeActivity;
 import com.example.mentsync.AfterLogin.LoggedInUser;
 import com.example.mentsync.AfterLogin.ProfileFragment;
+import com.example.mentsync.AfterLogin.UserSessionManager;
 import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
 import com.example.mentsync.Signup.RoleActivity;
@@ -89,7 +91,6 @@ public class LoginSignupActivity extends AppCompatActivity {
                     findViewById(R.id.loginprogress).setVisibility(View.VISIBLE);
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     String url ="https://"+ IPAddress.ipaddress+"/signin.php";
-
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                             new Response.Listener<String>() {
                                 @Override
@@ -99,10 +100,9 @@ public class LoginSignupActivity extends AppCompatActivity {
                                        if (jsonresponse.getBoolean("success"))
                                        {
                                            JSONObject user=jsonresponse.getJSONObject("user_data");
-                                           LoggedInUser currentUser=LoggedInUser.getInstance();
-                                           currentUser.setUser_id(user.optInt("u_id"));
-                                           currentUser.setProfilePic(user.optString("profile_pic"));
-                                           currentUser.setName(user.optString("name"));
+                                           //putting userdata into shared preferences
+                                           UserSessionManager newsession=new UserSessionManager(getApplicationContext());
+                                           newsession.startSession(getApplicationContext(),user);
                                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                        }
                                        else
@@ -149,5 +149,16 @@ public class LoginSignupActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finishAffinity();
+    }
+
+    void insertCurrentUserDataIntoSharedPreferences(JSONObject user) throws JSONException {
+        SharedPreferences pref=getSharedPreferences("user_data",MODE_PRIVATE);
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putInt("u_id",user.optInt("u_id"));
+        editor.putString("name",user.optString("name"));
+        editor.putString("email",user.getString("email"));
+        editor.putString("profile_pic",user.optString("profile_pic"));
+        editor.putBoolean("loggedin?",true);
+        editor.apply();
     }
 }
