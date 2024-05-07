@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mentsync.AfterLogin.HomeActivity;
+import com.example.mentsync.HandshakeErrorTackler;
 import com.example.mentsync.IPAddress;
 import com.example.mentsync.Login.LoginSignupActivity;
 import com.example.mentsync.R;
@@ -35,26 +36,7 @@ public class PasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
-        try {
-            // Set the hostname verifier to accept any hostname
-            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
-
-            // Create a new SSL context that accepts all certificates
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, new TrustManager[]{
-                    new X509TrustManager() {
-                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
-                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
-                        public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
-                    }
-            }, new SecureRandom());
-
-            // Set the default SSL socket factory to the custom SSL context
-            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception
-        }
+        HandshakeErrorTackler.fixerror();
         findViewById(R.id.finishbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

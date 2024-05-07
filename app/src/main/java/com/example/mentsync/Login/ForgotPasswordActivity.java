@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mentsync.AfterLogin.HomeActivity;
+import com.example.mentsync.HandshakeErrorTackler;
 import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
 
@@ -29,7 +30,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-
+        HandshakeErrorTackler.fixerror();
         findViewById(R.id.sendotpbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
