@@ -4,53 +4,60 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.ViewHolder> {
-    Context context;
-    ArrayList<SearchUserItemModel> arrayList;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    SearchUserAdapter(Context context, ArrayList<SearchUserItemModel> arrayList)
+public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.ViewHolder> {
+
+    Context context;
+    ArrayList<SearchUserItemModel> searchresult;
+    SearchUserAdapter(Context context,ArrayList<SearchUserItemModel> searchresult)
     {
         this.context=context;
-        this.arrayList=arrayList;
+        this.searchresult=searchresult;
     }
-    //ye container for card banata ha
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =LayoutInflater.from(context).inflate(R.layout.serachuseritem,parent,false);
-        return new ViewHolder(view);
+        View l=LayoutInflater.from(parent.getContext()).inflate(R.layout.serachuseritem,parent,false);
+        ViewHolder viewHolder=new ViewHolder(l);
+        return viewHolder;
     }
 
-    //ye data set kre ga container k upar
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(arrayList.get(position).profilepic).into(holder.image);
-        holder.name.setText(arrayList.get(position).name);
-    }
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
-    }
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
-        ImageView image;
-        TextView name;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            image=itemView.findViewById(R.id.profilepic3);
-            name=itemView.findViewById(R.id.name);
-        }
+        holder.name.setText(searchresult.get(position).name);
+        Glide.with(context) // "this" refers to the Fragment context
+                .load("https://" + IPAddress.ipaddress + "/UserProfilePics/"+searchresult.get(position).profilepic) // Load from URL
+                .placeholder(R.drawable.placeholder) // Optional: placeholder image
+                .error(R.drawable.baseline_clear_24) // Optional: error image
+                .into(holder.image); // Set in the ImageView
     }
 
+    @Override
+    public int getItemCount() {
+        return searchresult.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder
+    {
+        TextView name;
+        CircleImageView image;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name=itemView.findViewById(R.id.name);
+            image=itemView.findViewById(R.id.profilepic3);
+        }
+    }
 }
