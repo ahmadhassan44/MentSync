@@ -43,29 +43,27 @@
             findViewById(R.id.finishbtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                String pass1=((EditText)findViewById(R.id.pass1)).getText().toString();
-                String pass2=((EditText)findViewById(R.id.pass2)).getText().toString();
+                    findViewById(R.id.prog).setVisibility(View.VISIBLE);
+                    String pass1=((EditText)findViewById(R.id.pass1)).getText().toString();
+                    String pass2=((EditText)findViewById(R.id.pass2)).getText().toString();
                     if(!pass1.isEmpty() && !pass2.isEmpty() && pass1.equals(pass2))
                     {
+                        findViewById(R.id.finishbtn).setVisibility(View.INVISIBLE);
                         u.setPassword(pass1);
                         RequestQueue queue=Volley.newRequestQueue(getApplicationContext());
                         String url="https://"+ IPAddress.ipaddress+"/verification.php";
                         StringRequest verificationRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                if(response.equals("OTP Sent"))
-                                {
-                                    Log.d("ahmad","chalagya");
-                                    startActivity(new Intent(getApplicationContext(),OTPVerifictaionActivity.class));
-                                }
-                                else
-                                {
-                                    Log.d("ahmad",response);
-                                }
+                                Log.d("ahmad",response);
+                                findViewById(R.id.prog).setVisibility(View.INVISIBLE);
+                                startActivity(new Intent(getApplicationContext(),OTPVerifictaionActivity.class));
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                findViewById(R.id.prog).setVisibility(View.INVISIBLE);
+                                findViewById(R.id.finishbtn).setVisibility(View.VISIBLE);
                                 Toast.makeText(getApplicationContext(),"Error sending OTP:"+error.toString(),Toast.LENGTH_LONG).show();
                             }
                         }) {
@@ -80,11 +78,20 @@
                         queue.add(verificationRequest);
                     }
                     if(pass1.isEmpty())
+                    {
                         ((EditText)findViewById(R.id.pass1)).setError("Can't be empty");
+                        findViewById(R.id.prog).setVisibility(View.INVISIBLE);
+                    }
                     if(pass2.isEmpty())
+                    {
+                        findViewById(R.id.prog).setVisibility(View.INVISIBLE);
                         ((EditText)findViewById(R.id.pass2)).setError("Can't be empty");
+                    }
                     if(!pass1.equals(pass2))
+                    {
+                        findViewById(R.id.prog).setVisibility(View.INVISIBLE);
                         Toast.makeText(getApplicationContext(),"Passwords must match",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             findViewById(R.id.cancelbtn1).setOnClickListener(new View.OnClickListener() {
