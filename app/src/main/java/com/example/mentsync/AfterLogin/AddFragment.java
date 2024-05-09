@@ -50,7 +50,7 @@ public class AddFragment extends Fragment {
                     break;
                 case 1:
                     tab.setText("Query");
-                    break;  
+                    break;
                 default:
                     tab.setText("Tab " + position);
                     break;
