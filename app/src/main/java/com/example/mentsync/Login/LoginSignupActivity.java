@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +49,7 @@ public class LoginSignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_signup);
+
         HandshakeErrorTackler.fixerror();
         String email=((EditText)findViewById(R.id.loginemail)).getText().toString();
         String password=((EditText)findViewById(R.id.loginpassword)).getText().toString();

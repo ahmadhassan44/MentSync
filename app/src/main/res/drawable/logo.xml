@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Circle outline with stroke -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M12,2c-5.52,0-10,4.48-10,10s4.48,10,10,10,10-4.48,10-10S17.52,2,12,2z" />
+
+    <!-- Checkmark with rounded corners -->
+    <path
+        android:strokeColor="#1B6C31"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M9,12l3,3l10,-10" />
+</vector>

@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        VideoView videoView=findViewById(R.id.videoview);
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.animation);
+        videoView.setVideoURI(videoUri);
+        videoView.start();
         // Volley RequestQueue
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
@@ -41,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                             // Parse the response and extract the IP address
                             JSONObject jsonResponse = new JSONObject(response);
                             IPAddress.ipaddress = jsonResponse.getString("ipAddress");
-                            Toast.makeText(getApplicationContext(),IPAddress.ipaddress,Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error parsing IP address.", Toast.LENGTH_LONG).show();
                         }
                     }
                 },
@@ -51,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
-                        Toast.makeText(getApplicationContext(), "Error fetching IP address: " + error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
         // Add the request to the queue

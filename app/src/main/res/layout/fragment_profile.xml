@@ -7,7 +7,24 @@
     tools:context=".AfterLogin.ProfileFragment">
 
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="165dp"
+        android:clickable="true"
+        android:text="Delete Account"
+        android:textColor="#8A0000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/logoutbtn"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.8" />
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="500dp"
@@ -33,12 +50,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="profilefragment"
-                android:textSize="16sp"
-                app:layout_wrapBehaviorInParent="horizontal_only" />
+                android:clickable="false"
+                android:text="name"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -49,12 +67,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:layout_marginTop="468dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="50dp"
-        android:text="Logout"
         app:icon="@drawable/baseline_logout_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.92"
         app:strokeColor="#5C0606" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

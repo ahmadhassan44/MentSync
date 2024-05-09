@@ -3,17 +3,12 @@
     import android.content.Context;
     import android.content.Intent;
     import android.content.SharedPreferences;
-    import android.graphics.Bitmap;
-    import android.graphics.BitmapFactory;
-    import android.net.Uri;
     import android.os.Bundle;
 
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
     import androidx.fragment.app.Fragment;
 
-    import android.util.Log;
-    import android.view.Display;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
@@ -24,14 +19,6 @@
     import com.example.mentsync.IPAddress;
     import com.example.mentsync.Login.LoginSignupActivity;
     import com.example.mentsync.R;
-
-
-    import java.io.FileNotFoundException;
-    import java.io.InputStream;
-    import java.net.URI;
-    import java.net.URISyntaxException;
-
-    import de.hdodenhof.circleimageview.CircleImageView;
 
     public class ProfileFragment extends Fragment {
         View profileFragment;
@@ -56,7 +43,7 @@
 
             //set user data into components
             SharedPreferences pref= getContext().getSharedPreferences("user_data",Context.MODE_PRIVATE);
-            TextView tf=profileFragment.findViewById(R.id.textView8);
+            TextView tf=profileFragment.findViewById(R.id.textView9);
             tf.setText(pref.getString("name","User"));
             Glide.with(this) // "this" refers to the Fragment context
                     .load("https://" + IPAddress.ipaddress + "/UserProfilePics/" + pref.getString("profile_pic","IMG154.jpg")) // Load from URL
@@ -68,6 +55,12 @@
                 public void onClick(View v) {
                     new UserSessionManager(getContext()).endSession();
                     startActivity(new Intent(getContext(), LoginSignupActivity.class));
+                }
+            });
+            profileFragment.findViewById(R.id.textView10).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(),DeleteAccountActivity.class));
                 }
             });
         }
