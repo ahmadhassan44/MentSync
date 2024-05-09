@@ -28,7 +28,8 @@
             android:exported="false" />
         <activity
             android:name=".AfterLogin.HomeActivity"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".Signup.PasswordActivity"
             android:exported="false" />
