@@ -5,6 +5,8 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,17 +26,10 @@ public class UserSessionManager {
         editor.clear();
         editor.apply();
     }
-    public void startSession(Context context, JSONObject user) throws JSONException {
+    public void startSession(Context context,FirebaseUser user) {
         insertCurrentUserDataIntoSharedPreferences(user);
     }
-    private void insertCurrentUserDataIntoSharedPreferences(JSONObject user) throws JSONException {
-        pref=context.getSharedPreferences(prefname,MODE_PRIVATE);
-        SharedPreferences.Editor editor=pref.edit();
-        editor.putInt("u_id",user.optInt("u_id"));
-        editor.putString("name",user.optString("name"));
-        editor.putString("email",user.getString("email"));
-        editor.putString("profile_pic",user.optString("profile_pic"));
-        editor.putBoolean("loggedin?",true);
-        editor.apply();
+    private void insertCurrentUserDataIntoSharedPreferences(FirebaseUser user) {
+
     }
 }

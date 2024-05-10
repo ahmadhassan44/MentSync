@@ -136,6 +136,9 @@
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            findViewById(R.id.signupprog).setVisibility(View.INVISIBLE);
+                            findViewById(R.id.finishbtn).setVisibility(View.VISIBLE);
+                            Toast.makeText(PasswordActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
 
                         }
                     });
