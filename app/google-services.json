@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "895961617821",
+    "project_id": "mentsync-fc240",
+    "storage_bucket": "mentsync-fc240.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895961617821:android:87f4f074441d820eb4cb74",
+        "android_client_info": {
+          "package_name": "com.example.mentsync"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6bllsFZaLSzxYFN3tCRJnlc8rdrKIXdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895961617821:android:178d7fe60cca17a0b4cb74",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6bllsFZaLSzxYFN3tCRJnlc8rdrKIXdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
