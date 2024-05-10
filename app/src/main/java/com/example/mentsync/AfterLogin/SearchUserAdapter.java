@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
 
 import java.util.ArrayList;
@@ -37,11 +36,6 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(searchresult.get(position).name);
-        Glide.with(context) // "this" refers to the Fragment context
-                .load("https://" + IPAddress.ipaddress + "/UserProfilePics/"+searchresult.get(position).profilepic) // Load from URL
-                .placeholder(R.drawable.placeholder) // Optional: placeholder image
-                .error(R.drawable.baseline_clear_24) // Optional: error image
-                .into(holder.image); // Set in the ImageView
     }
 
     @Override
