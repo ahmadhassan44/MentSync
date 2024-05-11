@@ -2,6 +2,7 @@ package com.example.mentsync.Login;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mentsync.AfterLogin.HomeActivity;
+import com.example.mentsync.AfterLogin.UserSessionManager;
 import com.example.mentsync.R;
 import com.example.mentsync.Signup.NewUserData;
 import com.example.mentsync.Signup.RoleActivity;
@@ -47,7 +49,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                 findViewById(R.id.loginprogress).setVisibility(View.VISIBLE);
                 String useremail=((EditText)findViewById(R.id.loginemail)).getText().toString();
                 String pass=((EditText)findViewById(R.id.loginpassword)).getText().toString();
-                if(!(email.isEmpty() || pass.isEmpty()) && !(email.length()==6))
+                if(!(useremail.isEmpty() || pass.isEmpty()) && !(useremail.length()==6))
                 {
                     findViewById(R.id.loginprogress).setVisibility(View.VISIBLE);
                     FirebaseAuth auth=FirebaseAuth.getInstance();
@@ -55,9 +57,23 @@ public class LoginSignupActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
-                                    Toast.makeText(LoginSignupActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                    DatabaseReference user =FirebaseDatabase.getInstance().getReference("Users").child(authResult.getUser().getUid());
+                                    user.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.exists())
+                                            {
+                                                new UserSessionManager(getApplicationContext(),snapshot).startSession();
+                                                findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
+                                                Toast.makeText(LoginSignupActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -78,15 +94,28 @@ public class LoginSignupActivity extends AppCompatActivity {
                             if(snapshot.exists()) {
                                 DataSnapshot userSnapshot = snapshot.getChildren().iterator().next();
                                 String email = userSnapshot.child("email").getValue().toString();
-                                Log.d("ahmad", email);
                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                 auth.signInWithEmailAndPassword(email, pass)
                                         .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                             @Override
                                             public void onSuccess(AuthResult authResult) {
-                                                findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
-                                                Toast.makeText(LoginSignupActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                                DatabaseReference userref=FirebaseDatabase.getInstance().getReference("Users").child(authResult.getUser().getUid());
+                                                userref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        if(snapshot.exists())
+                                                        {
+                                                            new UserSessionManager(getApplicationContext(),snapshot).startSession();
+                                                            findViewById(R.id.loginprogress).setVisibility(View.INVISIBLE);
+                                                            Toast.makeText(LoginSignupActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
+                                                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                                        }
+                                                    }
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -106,7 +135,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                         }
                     });
                 }
-                else if(email.isEmpty())
+                else if(useremail.isEmpty())
                     ((EditText)findViewById(R.id.loginemail)).setError("Enter Email!");
                 else if(pass.isEmpty())
                     ((EditText)findViewById(R.id.loginpassword)).setError("EnterPassword");

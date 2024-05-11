@@ -43,6 +43,7 @@
             SharedPreferences pref= getContext().getSharedPreferences("user_data",Context.MODE_PRIVATE);
             TextView tf=profileFragment.findViewById(R.id.textView9);
             tf.setText(pref.getString("name","User"));
+            Glide.with(getContext()).load(pref.getString("profile_pic","null")).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(profilepic);
             profileFragment.findViewById(R.id.logoutbtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
