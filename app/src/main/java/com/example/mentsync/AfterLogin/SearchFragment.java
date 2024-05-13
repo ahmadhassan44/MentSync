@@ -25,6 +25,7 @@ public class SearchFragment extends Fragment {
     View searchFragment;
     SearchView searchView;
     RecyclerView recyclerView;
+    SearchUserAdapter adapter;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -39,7 +40,6 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         searchView=searchFragment.findViewById(R.id.searchview);
         recyclerView=searchFragment.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -54,13 +54,34 @@ public class SearchFragment extends Fragment {
         });
     }
     private void searchUser(String s) {
+        Query query=FirebaseDatabase.getInstance().getReference("Users").orderByChild("name").startAt(s.toLowerCase()).endAt(s.toLowerCase()+"\uf8ff");
         FirebaseRecyclerOptions<SearchUserItemModel> options =
                 new FirebaseRecyclerOptions.Builder<SearchUserItemModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("students").orderByChild("course").startAt(s).endAt(s+"\uf8ff"), SearchUserItemModel.class)
+                        .setQuery(query, SearchUserItemModel.class)
                         .build();
-        SearchUserAdapter adapter = new SearchUserAdapter(options);
-        adapter.startListening();
+        adapter = new SearchUserAdapter(options, searchFragment.getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        adapter.startListening();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(adapter!=null)
+            adapter.startListening();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(adapter!=null)
+            adapter.stopListening();
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter!=null)
+            adapter.startListening();
+    }
 }

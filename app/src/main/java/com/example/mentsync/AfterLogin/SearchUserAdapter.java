@@ -1,5 +1,6 @@
 package com.example.mentsync.AfterLogin;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchUserAdapter extends FirebaseRecyclerAdapter<SearchUserItemModel,SearchUserAdapter.ViewHolder> {
-    public SearchUserAdapter(@NonNull FirebaseRecyclerOptions<SearchUserItemModel> options) {
+    Context context;
+    public SearchUserAdapter(@NonNull FirebaseRecyclerOptions<SearchUserItemModel> options,Context context) {
         super(options);
+        this.context=context;
     }
     class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -41,7 +44,7 @@ public class SearchUserAdapter extends FirebaseRecyclerAdapter<SearchUserItemMod
     @NonNull
     @Override
     public SearchUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.serachuseritem,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.serachuseritem,parent,false);
         return new ViewHolder(view);
     }
 }
