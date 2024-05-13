@@ -34,9 +34,9 @@ public class SearchUserAdapter extends FirebaseRecyclerAdapter<SearchUserItemMod
     }
     @Override
     protected void onBindViewHolder(@NonNull SearchUserAdapter.ViewHolder holder, int position, @NonNull SearchUserItemModel model) {
-        holder.name.setText(model.name);
+        holder.name.setText(model.getName());
         Glide.with(holder.image.getContext())
-                .load(model.profilepic)
+                .load(model.getProfilepic())
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .into(holder.image);
