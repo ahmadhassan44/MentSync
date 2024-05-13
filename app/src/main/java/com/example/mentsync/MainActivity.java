@@ -35,33 +35,6 @@ public class MainActivity extends AppCompatActivity {
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.animation);
         videoView.setVideoURI(videoUri);
         videoView.start();
-        // Volley RequestQueue
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-        // Google Apps Script URL
-        String googleSheetUrl = "https://script.google.com/macros/s/AKfycbzJB4VAydA3AXbCajV3HYG0yZ2UTcJtXtrrwop2v0qdbfZlKJOCA4lVBr5RcOc58x9ADQ/exec";
-
-        // Create a Volley GET request to fetch the IP address
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, googleSheetUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            // Parse the response and extract the IP address
-                            JSONObject jsonResponse = new JSONObject(response);
-                            IPAddress.ipaddress = jsonResponse.getString("ipAddress");
-                        } catch (Exception e) {
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle error
-                    }
-                });
-        // Add the request to the queue
-        queue.add(stringRequest);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

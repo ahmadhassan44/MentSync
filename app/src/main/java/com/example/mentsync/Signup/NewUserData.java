@@ -1,5 +1,10 @@
 package com.example.mentsync.Signup;
 
+import android.content.Context;
+import android.net.Uri;
+
+import com.example.mentsync.R;
+
 public class NewUserData {
     private static NewUserData instance;
     private String role;
@@ -10,8 +15,9 @@ public class NewUserData {
     private String discipline;
     private int semester;
     private double CGPA;
-    private String Image="0";
-    private NewUserData() {}
+    private Uri image=null;
+    private NewUserData() {
+    }
     public static NewUserData getInstance()
     {
         if(instance==null)
@@ -55,8 +61,8 @@ public class NewUserData {
         this.semester = semester;
     }
 
-    public void setImage(String image) {
-        Image = image;
+    public void setImage(Uri image) {
+        this .image= image;
     }
 
     public String getEmail() {
@@ -91,7 +97,8 @@ public class NewUserData {
         return role;
     }
 
-    public String getImage() {
-        return Image;
+    public Uri getImage() {
+        return image;
     }
+
 }

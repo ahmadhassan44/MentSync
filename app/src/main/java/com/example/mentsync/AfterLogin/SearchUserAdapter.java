@@ -10,54 +10,41 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.mentsync.IPAddress;
 import com.example.mentsync.R;
-
-import java.util.ArrayList;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.ViewHolder> {
-
+public class SearchUserAdapter extends FirebaseRecyclerAdapter<SearchUserItemModel,SearchUserAdapter.ViewHolder> {
     Context context;
-    ArrayList<SearchUserItemModel> searchresult;
-    SearchUserAdapter(Context context,ArrayList<SearchUserItemModel> searchresult)
-    {
+    public SearchUserAdapter(@NonNull FirebaseRecyclerOptions<SearchUserItemModel> options,Context context) {
+        super(options);
         this.context=context;
-        this.searchresult=searchresult;
+    }
+    class ViewHolder extends RecyclerView.ViewHolder
+    {
+        CircleImageView image;
+        TextView name;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            image=(CircleImageView) itemView.findViewById(R.id.profilepic3);
+            name=(TextView)itemView.findViewById(R.id.name);
+        }
+    }
+    @Override
+    protected void onBindViewHolder(@NonNull SearchUserAdapter.ViewHolder holder, int position, @NonNull SearchUserItemModel model) {
+        holder.name.setText(model.name);
+        Glide.with(holder.image.getContext())
+                .load(model.profilepic)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(holder.image);
     }
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View l=LayoutInflater.from(parent.getContext()).inflate(R.layout.serachuseritem,parent,false);
-        ViewHolder viewHolder=new ViewHolder(l);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.name.setText(searchresult.get(position).name);
-        Glide.with(context) // "this" refers to the Fragment context
-                .load("https://" + IPAddress.ipaddress + "/UserProfilePics/"+searchresult.get(position).profilepic) // Load from URL
-                .placeholder(R.drawable.placeholder) // Optional: placeholder image
-                .error(R.drawable.baseline_clear_24) // Optional: error image
-                .into(holder.image); // Set in the ImageView
-    }
-
-    @Override
-    public int getItemCount() {
-        return searchresult.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView name;
-        CircleImageView image;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            name=itemView.findViewById(R.id.name);
-            image=itemView.findViewById(R.id.profilepic3);
-        }
+    public SearchUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(context).inflate(R.layout.serachuseritem,parent,false);
+        return new ViewHolder(view);
     }
 }

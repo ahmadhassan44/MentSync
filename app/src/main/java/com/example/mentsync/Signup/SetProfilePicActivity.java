@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,7 +32,6 @@ public class SetProfilePicActivity extends AppCompatActivity {
     Bitmap bitmap;
     ImageView img;
     String encodedImage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class SetProfilePicActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (bitmap == null) {
                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder);
-                    encodeBitmapImage(bitmap);
+                    img.setImageBitmap(bitmap);
                 }
                 startActivity(new Intent(getApplicationContext(),PasswordActivity.class));
             }
@@ -87,21 +87,17 @@ public class SetProfilePicActivity extends AppCompatActivity {
                 bitmap= BitmapFactory.decodeStream(inputStream);
                 img.setImageBitmap(bitmap);
                 ((Button)findViewById(R.id.skipbtn)).setText("Next");
-                encodeBitmapImage(bitmap);
+                u.setImage(filepath);
+                Intent intent=new Intent(getApplicationContext(), PasswordActivity.class);
             }
             catch (Exception e)
             {
+
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void encodeBitmapImage(Bitmap bitmap) {
-        ByteArrayOutputStream b=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,b);
-        byte[] bytesofImage=b.toByteArray();
-        encodedImage=android.util.Base64.encodeToString(bytesofImage, Base64.DEFAULT);
-        u.setImage(encodedImage);
-    }
+
 
 }
