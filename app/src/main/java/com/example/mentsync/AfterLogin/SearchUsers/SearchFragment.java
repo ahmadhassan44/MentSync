@@ -1,4 +1,4 @@
-package com.example.mentsync.AfterLogin;
+package com.example.mentsync.AfterLogin.SearchUsers;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mentsync.AfterLogin.LoggedInUser;
 import com.example.mentsync.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
@@ -69,15 +69,15 @@ public class SearchFragment extends Fragment {
 
     private void searchUser(String s) {
         Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("name")
-                .startAt(s)
-                .endAt(s + "\uf8ff");
+                .startAt(s).endAt(s + "\uf8ff");
 
         FirebaseRecyclerOptions<SearchUserItemModel> options =
                 new FirebaseRecyclerOptions.Builder<SearchUserItemModel>()
                         .setQuery(query, snapshot -> {
                             String profile_pic = snapshot.child("profile_pic").getValue(String.class);
                             String name = snapshot.child("name").getValue(String.class);
-                            return new SearchUserItemModel(profile_pic, name);
+                            String uid = snapshot.getKey(); // Get UID from the snapshot key
+                            return new SearchUserItemModel(profile_pic, name, uid); // Pass UID to constructor
                         })
                         .build();
         query.addListenerForSingleValueEvent(new ValueEventListener() {
