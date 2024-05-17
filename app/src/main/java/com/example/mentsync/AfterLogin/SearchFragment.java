@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentsync.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +45,6 @@ public class SearchFragment extends Fragment {
         recyclerView = searchFragment.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        FirebaseRecyclerOptions<SearchUserItemModel> options =
-                new FirebaseRecyclerOptions.Builder<SearchUserItemModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users"), SearchUserItemModel.class)
-                        .build();
-
-        mUsers = new ArrayList<>();
-        adapter = new SearchUserAdapter(options, getContext());
-        recyclerView.setAdapter(adapter);
-
         return searchFragment;
     }
 
@@ -81,16 +74,36 @@ public class SearchFragment extends Fragment {
 
         FirebaseRecyclerOptions<SearchUserItemModel> options =
                 new FirebaseRecyclerOptions.Builder<SearchUserItemModel>()
-                        .setQuery(query, SearchUserItemModel.class)
+                        .setQuery(query, snapshot -> {
+                            String profile_pic = snapshot.child("profile_pic").getValue(String.class);
+                            String name = snapshot.child("name").getValue(String.class);
+                            return new SearchUserItemModel(profile_pic, name);
+                        })
                         .build();
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    SearchUserItemModel user = snapshot.getValue(SearchUserItemModel.class);
+                    if (user != null) {
+                        Log.d("ahmad", "User found: " + user.getName() + ", Profile Pic: " + user.getProfilepic());
+                    } else {
+                        Log.d("ahmad", "User data is null");
+                    }
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         if (adapter != null) {
             adapter.updateOptions(options);
         } else {
             adapter = new SearchUserAdapter(options, getContext());
             recyclerView.setAdapter(adapter);
         }
-
         adapter.startListening();
     }
 
