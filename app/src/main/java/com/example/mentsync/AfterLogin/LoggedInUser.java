@@ -14,7 +14,7 @@ public class LoggedInUser {
         }
         return instance;
     }
-    private  int user_id;
+    private String user_id;
     private String name;
     private String CMS;
     private String email;
@@ -48,11 +48,11 @@ public class LoggedInUser {
         this.name = name;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 

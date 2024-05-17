@@ -5,6 +5,8 @@
     android:layout_height="match_parent">
 
     <!-- SearchView at the top of the layout -->
+
+    <!-- Nested scrolling content (RecyclerView) -->
     <android.widget.SearchView
         android:id="@+id/searchview"
         style="@style/ThemeOverlay.Material3.Search"
@@ -12,7 +14,6 @@
         android:layout_height="50dp"
         android:queryHint="Search" />
 
-    <!-- Nested scrolling content (RecyclerView) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
