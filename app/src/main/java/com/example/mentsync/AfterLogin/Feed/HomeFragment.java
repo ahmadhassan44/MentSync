@@ -1,4 +1,4 @@
-package com.example.mentsync.AfterLogin;
+package com.example.mentsync.AfterLogin.Feed;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mentsync.AfterLogin.ChatsActivity;
 import com.example.mentsync.R;
 import com.google.android.material.appbar.MaterialToolbar;
 
