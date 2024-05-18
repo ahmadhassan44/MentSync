@@ -27,7 +27,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/follow"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
@@ -35,13 +35,25 @@
                 tool:layout_constraintBottom_toBottomOf="parent"
                 tool:layout_constraintEnd_toEndOf="parent"
                 tool:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/unfollow"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:text="Following"
+                android:visibility="invisible"
+                tool:layout_constraintBottom_toBottomOf="parent"
+                tool:layout_constraintEnd_toEndOf="parent"
+                tool:layout_constraintTop_toTopOf="parent"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:singleLine="false"
                 android:text="Name Comes Here"
                 android:textSize="16sp"
                 tool:layout_constraintBottom_toBottomOf="parent"
@@ -50,6 +62,7 @@
                 tool:layout_constraintStart_toStartOf="parent"
                 tool:layout_constraintTop_toTopOf="parent">\
             </TextView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

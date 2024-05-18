@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mentsync.AfterLogin.LoggedInUser;
 import com.example.mentsync.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -101,7 +102,7 @@ public class SearchFragment extends Fragment {
         if (adapter != null) {
             adapter.updateOptions(options);
         } else {
-            adapter = new SearchUserAdapter(options, getContext());
+            adapter = new SearchUserAdapter(options, getContext(), FirebaseAuth.getInstance().getCurrentUser().getUid());
             recyclerView.setAdapter(adapter);
         }
         adapter.startListening();

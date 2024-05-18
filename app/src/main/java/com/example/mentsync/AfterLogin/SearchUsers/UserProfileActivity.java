@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mentsync.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +29,13 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView semesterTextView;
     private TextView GPATextView;
     private ImageView prof;
+    private Button followButton;
+    private Button unfollowButton;
 
+    private DatabaseReference userRef;
+    private DatabaseReference followsRef;
     private ValueEventListener userValueEventListener;
+    private ValueEventListener followStatusListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +47,18 @@ public class UserProfileActivity extends AppCompatActivity {
         semesterTextView = findViewById(R.id.textView12);
         GPATextView = findViewById(R.id.textView13);
         prof = findViewById(R.id.profilepic3);
+        followButton = findViewById(R.id.followbtn);
+        unfollowButton = findViewById(R.id.unfollowbtn);
 
         userId = getIntent().getStringExtra("userId");
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        followsRef = FirebaseDatabase.getInstance().getReference("Follow");
 
         findViewById(R.id.progressBar3).setVisibility(View.VISIBLE);
         findViewById(R.id.include).setVisibility(View.GONE);
 
+        // Fetch user data
         userValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -88,15 +100,81 @@ public class UserProfileActivity extends AppCompatActivity {
                 findViewById(R.id.progressBar3).setVisibility(View.GONE);
             }
         };
-
         userRef.addValueEventListener(userValueEventListener);
+
+        followButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                followUser();
+            }
+        });
+
+        unfollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unfollowUser();
+            }
+        });
+
+        followStatusListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(currentUserId).child("following").child(userId).exists()) {
+                    setFollowingUI();
+                } else {
+                    setNotFollowingUI();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to check follow status: " + databaseError.getMessage());
+            }
+        };
+        followsRef.addValueEventListener(followStatusListener);
+
+        // Check initial follow status and update UI
+        followsRef.child(currentUserId).child("following").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    setFollowingUI();
+                } else {
+                    setNotFollowingUI();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to fetch initial follow status: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    private void followUser() {
+        followsRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following").child(userId).setValue(true);
+        followsRef.child(userId).child("followers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
+    }
+
+    private void unfollowUser() {
+        followsRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following").child(userId).removeValue();
+        followsRef.child(userId).child("followers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+    }
+
+    private void setFollowingUI() {
+        followButton.setVisibility(View.INVISIBLE);
+        unfollowButton.setVisibility(View.VISIBLE);
+    }
+
+    private void setNotFollowingUI() {
+        followButton.setVisibility(View.VISIBLE);
+        unfollowButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         if (userValueEventListener != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
             userRef.addValueEventListener(userValueEventListener);
         }
     }
@@ -105,8 +183,10 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (userValueEventListener != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
             userRef.removeEventListener(userValueEventListener);
+        }
+        if (followStatusListener != null) {
+            followsRef.removeEventListener(followStatusListener);
         }
     }
 }
