@@ -1,5 +1,6 @@
 package com.example.mentsync.AfterLogin.Feed;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,18 +8,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mentsync.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -86,7 +92,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView date;
         TextView caption;
         ImageView postimage;
-        TextView likecount;
 
         public ImagePostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,11 +100,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             profilepic = itemView.findViewById(R.id.circleImageView);
             postimage = itemView.findViewById(R.id.imageView);
             caption = itemView.findViewById(R.id.textView19);
-            likecount = itemView.findViewById(R.id.textView18);
         }
 
         public void bind(ImagePostModel item) {
-            DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users").child(item.uid);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(item.uid);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -113,7 +117,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.e("Firebase", "Error loading user data: " + error.getMessage());
                 }
             });
             date.setText(item.date);
@@ -123,7 +127,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.baseline_clear_24)
                     .into(postimage);
-            likecount.setText(item.likes.toString());
         }
     }
 
@@ -146,10 +149,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             showAnswers = itemView.findViewById(R.id.buttonShowAnswers);
             youranswer = itemView.findViewById(R.id.editTextAnswer);
             postanswer = itemView.findViewById(R.id.buttonPostAnswer);
+            answers = itemView.findViewById(R.id.recyclerView);
+
+            answers.setVisibility(View.GONE);
         }
 
         public void bind(QueryPostModel item) {
-            DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Users").child(item.uid);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(item.uid);
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -163,11 +169,68 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.e("Firebase", "Error loading user data: " + error.getMessage());
                 }
             });
             date.setText(item.date);
             querybody.setText(item.Text);
+
+            postanswer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String answer = youranswer.getText().toString().trim();
+                    if (answer.isEmpty()) {
+                        youranswer.setError("Enter an answer!");
+                    } else {
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Query").child(item.queryId);
+                        ref.child("answers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(answer)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        youranswer.setText("");
+                                        Toast.makeText(itemView.getContext(), "You answered this query!", Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(itemView.getContext(), "Failed to post the answer!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                    }
+                }
+            });
+
+            showAnswers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String queryId = item.getQueryId();
+                    DatabaseReference queryRef = FirebaseDatabase.getInstance().getReference("Query").child(queryId).child("answers");
+
+                    queryRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            List<AnswerModel> answersList = new ArrayList<>();
+
+                            for (DataSnapshot answerSnapshot : snapshot.getChildren()) {
+                                String uid = answerSnapshot.getKey();
+                                String answer = answerSnapshot.getValue(String.class);
+                                AnswerModel answerModel = new AnswerModel(uid, answer);
+                                answersList.add(answerModel);
+                            }
+
+                            AnswerAdapter answerAdapter = new AnswerAdapter(answersList);
+                            answers.setAdapter(answerAdapter);
+                            answers.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e("Firebase", "Error fetching answers: " + error.getMessage());
+                        }
+                    });
+                }
+            });
         }
     }
 }

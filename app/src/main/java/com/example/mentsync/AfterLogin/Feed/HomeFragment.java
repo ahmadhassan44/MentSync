@@ -53,10 +53,23 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         MaterialToolbar topAppBar = view.findViewById(R.id.hometoolbar);
-        tab=homefrag.findViewById(R.id.tab);
-        viewPager2=homefrag.findViewById(R.id.viewpager);
+        tab = homefrag.findViewById(R.id.tab);
+        viewPager2 = homefrag.findViewById(R.id.viewpager);
 
-        FeedViewPagerAdapter feedViewPagerAdapter=new FeedViewPagerAdapter(getActivity().getSupportFragmentManager(), getLifecycle());
+        setupViewPager();
+
+        topAppBar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_chats) {
+                Intent intent = new Intent(getContext(), ChatsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void setupViewPager() {
+        FeedViewPagerAdapter feedViewPagerAdapter = new FeedViewPagerAdapter(getChildFragmentManager(), getLifecycle());
         viewPager2.setAdapter(feedViewPagerAdapter);
         new TabLayoutMediator(tab, viewPager2, (tab, position) -> {
             switch (position) {
@@ -71,19 +84,5 @@ public class HomeFragment extends Fragment {
                     break;
             }
         }).attach();
-
-        topAppBar.setOnMenuItemClickListener(new MaterialToolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_chats) {
-                    Intent intent = new Intent(getContext(), ChatsActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-                return false;
-            }
-        });
-
     }
-
 }

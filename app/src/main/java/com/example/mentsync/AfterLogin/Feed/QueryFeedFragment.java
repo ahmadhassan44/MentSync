@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class QueryFeedFragment extends Fragment {
@@ -41,9 +43,10 @@ public class QueryFeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        queryPostFeedView= inflater.inflate(R.layout.fragment_query_feed, container, false);
+        queryPostFeedView = inflater.inflate(R.layout.fragment_query_feed, container, false);
         return queryPostFeedView;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -57,23 +60,36 @@ public class QueryFeedFragment extends Fragment {
 
         fetchData();
     }
+
     private void fetchData() {
         DatabaseReference queriesRef = FirebaseDatabase.getInstance().getReference().child("Query");
 
         ValueEventListener queryListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                queryPosts.clear();
+                List<QueryPostModel> tempList = new ArrayList<>(); // Temporary list to hold posts
+
                 for (DataSnapshot querySnapshot : snapshot.getChildren()) {
                     QueryPostModel queryPost = querySnapshot.getValue(QueryPostModel.class);
                     if (queryPost != null) {
-                        queryPosts.add(queryPost);
-                        // Debug log
+                        queryPost.setQueryId(querySnapshot.getKey()); // Set the queryId manually
+                        tempList.add(queryPost);
                         Log.d("QueryPostFeedFragment", "QueryPost retrieved: " + queryPost.toString());
                     } else {
                         Log.e("QueryPostFeedFragment", "QueryPost is null for snapshot: " + querySnapshot.toString());
                     }
                 }
+
+                // Sort the list by date
+                Collections.sort(tempList, new Comparator<QueryPostModel>() {
+                    @Override
+                    public int compare(QueryPostModel post1, QueryPostModel post2) {
+                        return post2.getDate().compareTo(post1.getDate()); // Sort by date in descending order
+                    }
+                });
+
+                queryPosts.clear();
+                queryPosts.addAll(tempList);
                 feedAdapter.notifyDataSetChanged();
             }
 
@@ -85,5 +101,4 @@ public class QueryFeedFragment extends Fragment {
 
         queriesRef.addListenerForSingleValueEvent(queryListener);
     }
-
 }

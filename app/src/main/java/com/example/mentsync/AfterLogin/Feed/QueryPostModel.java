@@ -6,6 +6,7 @@ public class QueryPostModel {
     public String date;
     public String Text;
     public  String uid;
+    String queryId;
 
     public QueryPostModel() {
     }
@@ -19,6 +20,14 @@ public class QueryPostModel {
         this.date = date;
     }
 
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
+    }
+
     public String getQuery_body() {
         return Text;
     }
@@ -29,6 +38,7 @@ public class QueryPostModel {
     @NonNull
     public String toString() {
         return "QueryPostModel{" +
+                "queryId" + queryId+
                 "uid='" + uid + '\'' +
                 ", query_body='" + Text + '\'' +
                 ", date='" + date + '\'' +

@@ -5,7 +5,7 @@ public class ImagePostModel {
     public String date;
     public String caption;
     public String imgurl;
-    public Long likes;
+    public String postId;
 
     public ImagePostModel() {
     }
@@ -26,6 +26,14 @@ public class ImagePostModel {
         this.date = date;
     }
 
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
     public String getCaption() {
         return caption;
     }
@@ -42,20 +50,13 @@ public class ImagePostModel {
         this.imgurl = imgurl;
     }
 
-    public Long getLikecount() {
-        return likes;
-    }
-
-    public void setLikecount(Long likes) {
-        this.likes = likes;
-    }
     public String toString() {
         return "ImagePostModel{" +
+                "postID:"+postId+
                 "uid"+uid+
                 ", date='" + date + '\'' +
                 ", caption='" + caption + '\'' +
                 ", imgurl='" + imgurl + '\'' +
-                ", likecount='" + likes + '\'' +
                 '}';
     }
 }

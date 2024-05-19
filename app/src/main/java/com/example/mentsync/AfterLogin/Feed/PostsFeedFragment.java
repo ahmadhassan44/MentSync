@@ -21,13 +21,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
 
 public class PostsFeedFragment extends Fragment {
     private RecyclerView mainrecview;
     private View imagePostFeedView;
     private FeedAdapter feedAdapter;
     private List<Object> imagePosts;
+
     public PostsFeedFragment() {
         // Required empty public constructor
     }
@@ -41,9 +45,10 @@ public class PostsFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        imagePostFeedView= inflater.inflate(R.layout.fragment_posts_feed, container, false);
+        imagePostFeedView = inflater.inflate(R.layout.fragment_posts_feed, container, false);
         return imagePostFeedView;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -57,31 +62,44 @@ public class PostsFeedFragment extends Fragment {
 
         fetchData();
     }
+
     private void fetchData() {
-        DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("Post");
+            DatabaseReference postsRef = FirebaseDatabase.getInstance().getReference().child("Post");
 
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                imagePosts.clear();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    ImagePostModel imagePost = postSnapshot.getValue(ImagePostModel.class);
-                    if (imagePost != null) {
-                        imagePosts.add(imagePost);
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    List<ImagePostModel> tempList = new ArrayList<>(); // Temporary list to hold posts
 
-                        Log.d("ImagePostFeedFragment", "ImagePost retrieved: " + imagePost.toString());
-                    } else {
-                        Log.e("ImagePostFeedFragment", "ImagePost is null for snapshot: " + postSnapshot.toString());
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        ImagePostModel imagePost = postSnapshot.getValue(ImagePostModel.class);
+                        if (imagePost != null) {
+                            imagePost.setPostId(postSnapshot.getKey()); // Set the postId manually
+                            tempList.add(imagePost);
+                            Log.d("ImagePostFeedFragment", "ImagePost retrieved: " + imagePost.toString());
+                        } else {
+                            Log.e("ImagePostFeedFragment", "ImagePost is null for snapshot: " + postSnapshot.toString());
+                        }
                     }
-                }
-                feedAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle possible errors.
-            }
-        };
-        postsRef.addListenerForSingleValueEvent(postListener);
-    }
+                    // Sort the list by date
+                    Collections.sort(tempList, new Comparator<ImagePostModel>() {
+                        @Override
+                        public int compare(ImagePostModel post1, ImagePostModel post2) {
+                            return post2.getDate().compareTo(post1.getDate()); // Sort by date in descending order
+                        }
+                    });
+
+                    imagePosts.clear();
+                    imagePosts.addAll(tempList);
+                    feedAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle possible errors.
+                }
+            };
+            postsRef.addListenerForSingleValueEvent(postListener);
+        }
 }
