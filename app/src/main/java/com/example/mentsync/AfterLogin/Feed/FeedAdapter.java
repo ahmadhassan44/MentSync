@@ -1,5 +1,11 @@
 package com.example.mentsync.AfterLogin.Feed;
 
+import static android.app.PendingIntent.getActivity;
+import static androidx.core.content.ContextCompat.startActivity;
+
+import static java.security.AccessController.getContext;
+
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,9 +155,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             showAnswers = itemView.findViewById(R.id.buttonShowAnswers);
             youranswer = itemView.findViewById(R.id.editTextAnswer);
             postanswer = itemView.findViewById(R.id.buttonPostAnswer);
-            answers = itemView.findViewById(R.id.recyclerView);
-
-            answers.setVisibility(View.GONE);
         }
 
         public void bind(QueryPostModel item) {
@@ -200,35 +203,12 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 }
             });
-
             showAnswers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String queryId = item.getQueryId();
-                    DatabaseReference queryRef = FirebaseDatabase.getInstance().getReference("Query").child(queryId).child("answers");
-
-                    queryRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            List<AnswerModel> answersList = new ArrayList<>();
-
-                            for (DataSnapshot answerSnapshot : snapshot.getChildren()) {
-                                String uid = answerSnapshot.getKey();
-                                String answer = answerSnapshot.getValue(String.class);
-                                AnswerModel answerModel = new AnswerModel(uid, answer);
-                                answersList.add(answerModel);
-                            }
-
-                            AnswerAdapter answerAdapter = new AnswerAdapter(answersList);
-                            answers.setAdapter(answerAdapter);
-                            answers.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.e("Firebase", "Error fetching answers: " + error.getMessage());
-                        }
-                    });
+                    Intent intent =new Intent(v.getContext(), AnswersActivity.class);
+                    intent.putExtra("queryId",item.getQueryId());
+                    v.getContext().startActivity(intent);
                 }
             });
         }

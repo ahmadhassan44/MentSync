@@ -33,7 +33,6 @@ public class PostsFeedFragment extends Fragment {
     private List<Object> imagePosts;
 
     public PostsFeedFragment() {
-        // Required empty public constructor
     }
 
     @Override

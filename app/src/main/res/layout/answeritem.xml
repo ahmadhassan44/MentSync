@@ -33,6 +33,7 @@
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
                 android:text="Name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:padding="4dp"
                 android:text="Answer comes herejhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhd"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
