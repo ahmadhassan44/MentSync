@@ -1,5 +1,6 @@
 package com.example.mentsync.Chat;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,14 @@ public class FollowedUsersAdapter extends RecyclerView.Adapter<FollowedUsersAdap
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("FollowedUsersAdapter", "Error loading user data", error.toException());
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(v.getContext(), UserChat.class);
+                intent.putExtra("uid",userModel.getUid());
+                v.getContext().startActivity(intent);
             }
         });
     }
