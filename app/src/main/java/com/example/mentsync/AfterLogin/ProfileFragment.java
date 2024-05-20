@@ -62,8 +62,6 @@
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     disp.setText(snapshot.child("discipline").getValue(String.class));
-                    sem.setText("Semester: "+snapshot.child("semester").getValue(Long.class).toString());
-                    gpa.setText("CGPA: "+snapshot.child("cgpa").getValue(String.class));
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -97,8 +95,9 @@
                                 public void onClick(DialogInterface dialog, int which) {
                                     String newCgpa = dialogTextView.getText().toString().trim();
                                     if (!newCgpa.isEmpty()) {
+                                        Long gpa = Long.parseLong(dialogTextView.getText().toString().trim());
                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        ref.child("cgpa").setValue(newCgpa)
+                                        ref.child("cgpa").setValue(gpa)
                                                 .addOnCompleteListener(task -> {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(getContext(), "CGPA updated", Toast.LENGTH_SHORT).show();
