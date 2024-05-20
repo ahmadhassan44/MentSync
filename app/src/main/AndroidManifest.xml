@@ -27,7 +27,7 @@
             android:name=".AfterLogin.DeleteAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".AfterLogin.ChatsActivity"
+            android:name=".Chat.ChatsActivity"
             android:exported="false" />
         <activity
             android:name=".Signup.SetProfilePicActivity"
