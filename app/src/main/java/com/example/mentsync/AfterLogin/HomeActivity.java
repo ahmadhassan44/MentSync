@@ -42,8 +42,6 @@
                         selectedFragment= new SearchFragment();
                     else if(item.getItemId()==R.id.nav_post)
                         selectedFragment=new AddFragment();
-                    else if (item.getItemId()==R.id.nav_notifications)
-                        selectedFragment=new NotificationsFragment();
                     else if(item.getItemId()==R.id.nav_profile)
                         selectedFragment=new ProfileFragment();
                     switchFragment(selectedFragment,true);

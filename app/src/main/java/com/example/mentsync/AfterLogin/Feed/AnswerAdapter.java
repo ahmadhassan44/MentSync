@@ -4,13 +4,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mentsync.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +44,44 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
     public void onBindViewHolder(@NonNull AnswerViewHolder holder, int position) {
         AnswerModel answerModel = answerList.get(position);
         holder.bind(answerModel);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if((answerModel.getUid()).equals( FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    showDeleteOption(holder.itemView);
+                }
+                return false;
+            }
+
+            private void showDeleteOption(View anchorView) {
+                View view = LayoutInflater.from(anchorView.getContext()).inflate(R.layout.deletedialog, null);
+                int width = ViewGroup.LayoutParams.WRAP_CONTENT;
+                int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                boolean focusable = true; // Lets taps outside the popup also dismiss it
+                PopupWindow window = new PopupWindow(view, width, height, focusable);
+                window.showAsDropDown(anchorView, 0, 0);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteAnswer();
+                    }
+
+                    private void deleteAnswer() {
+                        DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Query").child(answerModel.getQueryId()).child("answers").child(answerModel.getUid());
+                        ref.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                answerList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position, answerList.size());
+                                Toast.makeText(view.getContext(), "Answer Deleted!", Toast.LENGTH_SHORT).show();
+                                window.dismiss();
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     @Override

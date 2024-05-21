@@ -3,14 +3,25 @@ package com.example.mentsync.AfterLogin.Feed;
 public class AnswerModel {
     private String uid;
     private String answer;
+    String queryId;
+
+    public String getQueryId() {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId) {
+        this.queryId = queryId;
+    }
 
     public AnswerModel() {
         // Default constructor required for calls to DataSnapshot.getValue(AnswerModel.class)
     }
 
-    public AnswerModel(String uid, String answer) {
+    public AnswerModel(String uid, String answer,String queryId) {
         this.uid = uid;
         this.answer = answer;
+        this.queryId=queryId;
+
     }
 
     public String getUid() {

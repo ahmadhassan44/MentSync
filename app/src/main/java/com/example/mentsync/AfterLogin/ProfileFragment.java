@@ -88,7 +88,7 @@
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     disp.setText(snapshot.child("discipline").getValue(String.class));
                     sem.setText("Semester : "+(snapshot.child("semester").getValue(Long.class).toString()));
-                    gpa.setText("CGPA : "+(snapshot.child("cgpa").getValue(Long.class).toString()));
+                    gpa.setText("CGPA : "+(snapshot.child("cgpa").getValue(Double.class).toString()));
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -120,9 +120,9 @@
                             .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    String newCgpa = dialogTextView.getText().toString().trim();
+                                    String newCgpa = dialogTextView.getText().toString();
                                     if (!newCgpa.isEmpty()) {
-                                        Long gpa = Long.parseLong(dialogTextView.getText().toString().trim());
+                                        Double gpa = Double.parseDouble(dialogTextView.getText().toString());
                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                         ref.child("cgpa").setValue(gpa)
                                                 .addOnCompleteListener(task -> {

@@ -47,7 +47,7 @@
                         String uid = answerSnapshot.getKey(); // Assuming UID is the key of each answer
                         String answerText = answerSnapshot.getValue(String.class);
 
-                        AnswerModel answerModel = new AnswerModel(uid, answerText);
+                        AnswerModel answerModel = new AnswerModel(uid, answerText,queryId);
                         answers.add(answerModel);
                     }
                     adapter.notifyDataSetChanged(); // Notify adapter after adding data
