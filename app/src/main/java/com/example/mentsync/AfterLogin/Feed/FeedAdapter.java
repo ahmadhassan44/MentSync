@@ -116,7 +116,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Glide.with(profilepic.getContext())
                             .load(snapshot.child("profile_pic").getValue(String.class))
                             .placeholder(R.drawable.placeholder)
-                            .error(R.drawable.baseline_clear_24)
+                            .error(R.drawable.placeholder)
                             .into(profilepic);
                     name.setText(snapshot.child("name").getValue(String.class));
                 }
@@ -130,8 +130,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             caption.setText(item.caption);
             Glide.with(postimage.getContext())
                     .load(item.imgurl)
-                    .placeholder(R.drawable.placeholder)
-                    .error(R.drawable.baseline_clear_24)
+                    .placeholder(R.drawable.postplaceholder)
+                    .error(R.drawable.postplaceholder)
                     .into(postimage);
         }
     }
