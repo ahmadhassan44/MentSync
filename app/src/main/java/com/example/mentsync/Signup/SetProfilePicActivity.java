@@ -60,7 +60,11 @@ public class SetProfilePicActivity extends AppCompatActivity {
                 Dexter.withActivity(SetProfilePicActivity.this).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        startActivityForResult(Intent.createChooser((new Intent(Intent.ACTION_PICK)).setType("image/*"),"Browse Image"),123);
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
+                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
+                        startActivityForResult(Intent.createChooser(intent, "Browse Image"), 123);
                     }
 
                     @Override
