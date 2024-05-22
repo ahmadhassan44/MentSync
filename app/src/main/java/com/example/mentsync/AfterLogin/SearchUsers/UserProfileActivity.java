@@ -3,10 +3,12 @@ package com.example.mentsync.AfterLogin.SearchUsers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseReference followsRef;
     private ValueEventListener userValueEventListener;
     private ValueEventListener followStatusListener;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,14 @@ public class UserProfileActivity extends AppCompatActivity {
         prof = findViewById(R.id.profilepic3);
         followButton = findViewById(R.id.followbtn);
         unfollowButton = findViewById(R.id.unfollowbtn);
+        back=findViewById(R.id.imageButton);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         userId = getIntent().getStringExtra("userId");
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -57,6 +67,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         findViewById(R.id.progressBar3).setVisibility(View.VISIBLE);
         findViewById(R.id.include).setVisibility(View.GONE);
+
 
         // Fetch user data
         userValueEventListener = new ValueEventListener() {
