@@ -98,6 +98,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView date;
         TextView caption;
         ImageView postimage;
+        TextView discp;
 
         public ImagePostViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +107,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             profilepic = itemView.findViewById(R.id.circleImageView);
             postimage = itemView.findViewById(R.id.imageView);
             caption = itemView.findViewById(R.id.textView19);
+            discp=itemView.findViewById(R.id.textView27);
+
         }
 
         public void bind(ImagePostModel item) {
@@ -119,6 +122,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             .error(R.drawable.placeholder)
                             .into(profilepic);
                     name.setText(snapshot.child("name").getValue(String.class));
+                    discp.setText(snapshot.child("discipline").getValue(String.class));
                 }
 
                 @Override
@@ -144,6 +148,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         EditText youranswer;
         Button showAnswers;
         Button postanswer;
+        TextView dis;
         RecyclerView answers;
 
         public QueryPostViewHolder(@NonNull View itemView) {
@@ -155,6 +160,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             showAnswers = itemView.findViewById(R.id.buttonShowAnswers);
             youranswer = itemView.findViewById(R.id.editTextAnswer);
             postanswer = itemView.findViewById(R.id.buttonPostAnswer);
+            dis=itemView.findViewById(R.id.textView28);
         }
 
         public void bind(QueryPostModel item) {
@@ -168,6 +174,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             .error(R.drawable.baseline_clear_24)
                             .into(profilepic);
                     name.setText(snapshot.child("name").getValue(String.class));
+                    dis.setText(snapshot.child("discipline").getValue(String.class));
+
                 }
 
                 @Override

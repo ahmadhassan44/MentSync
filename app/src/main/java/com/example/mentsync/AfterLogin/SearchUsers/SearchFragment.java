@@ -1,7 +1,6 @@
 package com.example.mentsync.AfterLogin.SearchUsers;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,8 @@ import com.example.mentsync.AfterLogin.LoggedInUser;
 import com.example.mentsync.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -46,6 +42,10 @@ public class SearchFragment extends Fragment {
         recyclerView = searchFragment.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Initially fetch and display all users
+        fetchAllUsers();
+
         return searchFragment;
     }
 
@@ -68,9 +68,8 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void searchUser(String s) {
-        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("name")
-                .startAt(s).endAt(s + "\uf8ff");
+    private void fetchAllUsers() {
+        Query query = FirebaseDatabase.getInstance().getReference("Users");
 
         FirebaseRecyclerOptions<SearchUserItemModel> options =
                 new FirebaseRecyclerOptions.Builder<SearchUserItemModel>()
@@ -81,30 +80,32 @@ public class SearchFragment extends Fragment {
                             return new SearchUserItemModel(profile_pic, name, uid); // Pass UID to constructor
                         })
                         .build();
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    SearchUserItemModel user = snapshot.getValue(SearchUserItemModel.class);
-                    if (user != null) {
-                        Log.d("ahmad", "User found: " + user.getName() + ", Profile Pic: " + user.getProfilepic());
-                    } else {
-                        Log.d("ahmad", "User data is null");
-                    }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        adapter = new SearchUserAdapter(options, getContext(), FirebaseAuth.getInstance().getCurrentUser().getUid());
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+    }
 
-            }
-        });
-        if (adapter != null) {
-            adapter.updateOptions(options);
+    private void searchUser(String s) {
+        Query query;
+        if (s.isEmpty()) {
+            query = FirebaseDatabase.getInstance().getReference("Users");
         } else {
-            adapter = new SearchUserAdapter(options, getContext(), FirebaseAuth.getInstance().getCurrentUser().getUid());
-            recyclerView.setAdapter(adapter);
+            query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("name")
+                    .startAt(s).endAt(s + "\uf8ff");
         }
+
+        FirebaseRecyclerOptions<SearchUserItemModel> options =
+                new FirebaseRecyclerOptions.Builder<SearchUserItemModel>()
+                        .setQuery(query, snapshot -> {
+                            String profile_pic = snapshot.child("profile_pic").getValue(String.class);
+                            String name = snapshot.child("name").getValue(String.class);
+                            String uid = snapshot.getKey(); // Get UID from the snapshot key
+                            return new SearchUserItemModel(profile_pic, name, uid); // Pass UID to constructor
+                        })
+                        .build();
+
+        adapter.updateOptions(options);
         adapter.startListening();
     }
 

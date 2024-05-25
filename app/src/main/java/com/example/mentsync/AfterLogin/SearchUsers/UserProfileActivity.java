@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mentsync.R;
+import com.google.firebase.FirebaseCommonKtxRegistrar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +31,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView disciplineTextView;
     private TextView semesterTextView;
     private TextView GPATextView;
+    TextView followers;
+    TextView following;
     private ImageView prof;
     private Button followButton;
     private Button unfollowButton;
@@ -53,6 +56,8 @@ public class UserProfileActivity extends AppCompatActivity {
         followButton = findViewById(R.id.followbtn);
         unfollowButton = findViewById(R.id.unfollowbtn);
         back=findViewById(R.id.imageButton);
+        followers=findViewById(R.id.textView31);
+        following=findViewById(R.id.textView35);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +84,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     String semester = dataSnapshot.child("semester").getValue(Long.class).toString();
                     String cgpa = dataSnapshot.child("cgpa").getValue(Double.class).toString();
                     String profilePicUrl = dataSnapshot.child("profile_pic").getValue(String.class);
-
+                    fetchFollowData();
                     nameTextView.setText(name);
                     GPATextView.setText("GPA: " + cgpa);
                     semesterTextView.setText("Semester: " + semester);
@@ -162,14 +167,43 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void fetchFollowData() {
+        DatabaseReference ref1=FirebaseDatabase.getInstance().getReference("Follow").child(userId).child("followers");
+        DatabaseReference ref2=FirebaseDatabase.getInstance().getReference("Follow").child(userId).child("following");
+        ref1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                followers.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        ref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                following.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void followUser() {
         followsRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following").child(userId).setValue(true);
         followsRef.child(userId).child("followers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(true);
+        fetchFollowData();
     }
 
     private void unfollowUser() {
         followsRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following").child(userId).removeValue();
         followsRef.child(userId).child("followers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+        fetchFollowData();
     }
 
     private void setFollowingUI() {

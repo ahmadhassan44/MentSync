@@ -28,17 +28,16 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="165dp"
         android:clickable="true"
         android:paddingTop="10dp"
         android:text="Delete Account"
         android:textColor="#8A0000"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/logoutbtn"
         app:layout_constraintEnd_toStartOf="@+id/logoutbtn"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="@+id/logoutbtn"
         app:layout_constraintVertical_bias="0.8" />
 
     <LinearLayout
@@ -60,14 +59,53 @@
             android:src="@drawable/placeholder"
             tools:src="@drawable/placeholder" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
+            android:layout_marginStart="22dp">
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="4dp"
+                android:text="Following"
+                app:layout_constraintBottom_toBottomOf="@+id/textView33"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView33"
+                app:layout_constraintTop_toTopOf="@+id/textView31" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Followers"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView33"
+                app:layout_constraintEnd_toEndOf="@+id/textView33"
+                app:layout_constraintStart_toStartOf="@+id/textView33" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView34"
+                app:layout_constraintEnd_toEndOf="@+id/textView34"
+                app:layout_constraintStart_toStartOf="@+id/textView34" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
@@ -134,25 +172,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/floatingActionButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@drawable/baseline_edit_24"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:background="@color/md_theme_dark_background"
+        android:src="@drawable/baseline_edit_24_1"
         app:layout_constraintBottom_toBottomOf="@+id/textView23"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView23"
         app:layout_constraintTop_toTopOf="@+id/textView23" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/floatingActionButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@drawable/baseline_edit_24"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:background="@color/md_theme_dark_background"
+        android:src="@drawable/baseline_edit_24_1"
         app:layout_constraintBottom_toBottomOf="@+id/textView24"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toTopOf="@+id/textView24" />
 

@@ -15,6 +15,7 @@
     import android.graphics.LinearGradient;
     import android.net.Uri;
     import android.os.Bundle;
+    import android.text.InputType;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
@@ -34,6 +35,7 @@
     import com.example.mentsync.Signup.SetProfilePicActivity;
     import com.google.android.gms.tasks.OnSuccessListener;
     import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+    import com.google.android.material.textfield.TextInputLayout;
     import com.google.firebase.auth.FirebaseAuth;
     import com.google.firebase.database.DataSnapshot;
     import com.google.firebase.database.DatabaseError;
@@ -57,6 +59,8 @@
     public class    ProfileFragment extends Fragment {
         View profileFragment;
 
+        TextView followers;
+        TextView following;
         public ProfileFragment() {
             // Required empty public constructor
         }
@@ -77,7 +81,8 @@
             TextView disp=profileFragment.findViewById(R.id.textView22);
             TextView sem=profileFragment.findViewById(R.id.textView23);
             TextView gpa=profileFragment.findViewById(R.id.textView24);
-            //set user data into components
+            followers=profileFragment.findViewById(R.id.textView31);
+            following=profileFragment.findViewById(R.id.textView35);
             SharedPreferences pref= getContext().getSharedPreferences("user_data",Context.MODE_PRIVATE);
             TextView tf=profileFragment.findViewById(R.id.textView9);
             tf.setText(pref.getString("name","User"));
@@ -89,6 +94,7 @@
                     disp.setText(snapshot.child("discipline").getValue(String.class));
                     sem.setText("Semester : "+(snapshot.child("semester").getValue(Long.class).toString()));
                     gpa.setText("CGPA : "+(snapshot.child("cgpa").getValue(Double.class).toString()));
+                    getFollowdata();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -112,8 +118,10 @@
                 @Override
                 public void onClick(View v) {
                     View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialogbox, null);
+                    TextInputLayout lay=view1.findViewById(R.id.textInputLayout3);
                     TextView dialogTextView = view1.findViewById(R.id.txtview);
-                    dialogTextView.setHint("Enter your new CGPA");
+                    dialogTextView.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                    lay.setHint("Enter your new CGPA");
                     new MaterialAlertDialogBuilder(getContext())
                             .setTitle("Update Profile")
                             .setView(view1)
@@ -152,8 +160,10 @@
                 @Override
                 public void onClick(View v) {
                     View view1 = LayoutInflater.from(getContext()).inflate(R.layout.dialogbox, null);
+                    TextInputLayout lay=view1.findViewById(R.id.textInputLayout3);
                     TextView dialogTextView = view1.findViewById(R.id.txtview);
-                    dialogTextView.setHint("Enter your current semester");
+                    dialogTextView.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    lay.setHint("Enter your current semester");
                     new MaterialAlertDialogBuilder(getContext())
                             .setTitle("Update Profile")
                             .setView(view1)
@@ -281,6 +291,31 @@
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);
+        }
+        void getFollowdata() {
+            DatabaseReference ref1=FirebaseDatabase.getInstance().getReference("Follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("followers");
+            DatabaseReference ref2=FirebaseDatabase.getInstance().getReference("Follow").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("following");
+            ref1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    followers.setText(String.valueOf(snapshot.getChildrenCount()));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            ref2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    following.setText(String.valueOf(snapshot.getChildrenCount()));
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
     }
