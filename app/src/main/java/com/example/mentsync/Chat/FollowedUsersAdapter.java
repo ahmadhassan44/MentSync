@@ -41,7 +41,6 @@ public class FollowedUsersAdapter extends RecyclerView.Adapter<FollowedUsersAdap
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         ChatUserModel userModel = followedUsers.get(position);
         Log.d("FollowedUsersAdapter", "User ID: " + userModel.getUid());
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(userModel.getUid());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

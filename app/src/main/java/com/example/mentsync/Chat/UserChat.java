@@ -101,8 +101,6 @@ public class UserChat extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        // Message saved successfully
-                                        Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_SHORT).show();
                                         messeageTextView.setText("");
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Failed to send message", Toast.LENGTH_SHORT).show();

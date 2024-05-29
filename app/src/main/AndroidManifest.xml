@@ -18,6 +18,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Chat.ForumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Chat.ForumTopic"
+            android:exported="false"
+            android:label="@string/title_activity_forum_topic"
+            android:theme="@style/MentSyncTheme" />
+        <activity
+            android:name=".Chat.ForumProperties"
+            android:exported="false" />
+        <activity
+            android:name=".Chat.ForumMembers"
+            android:exported="false" />
+        <activity
             android:name=".Chat.UserChat"
             android:exported="false" />
         <activity

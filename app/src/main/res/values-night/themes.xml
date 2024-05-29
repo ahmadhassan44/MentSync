@@ -1,5 +1,5 @@
-
 <resources>
+
     <style name="MentSyncTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
@@ -28,6 +28,11 @@
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
         <item name="android:fontFamily">@font/loraregular</item>
-<!--        <item name="android:windowBackground">@color/cardview_light_background</item>-->
+        <!--        <item name="android:windowBackground">@color/cardview_light_background</item>-->
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.MentSyncTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>

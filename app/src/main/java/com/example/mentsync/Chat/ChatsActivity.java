@@ -2,71 +2,55 @@ package com.example.mentsync.Chat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.view.View;
+import android.view.MenuItem;
 
 import com.example.mentsync.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ChatsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private FollowedUsersAdapter adapter;
-    private List<ChatUserModel> chatUserModels;
-    private View progressBar;
+    private ViewPager2 viewPager2;
+    private BottomNavigationView bottomNavigationView;
+    private ChatViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
 
-        recyclerView = findViewById(R.id.recview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        viewPager2 = findViewById(R.id.vp);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        progressBar = findViewById(R.id.progressBar4);
+        adapter = new ChatViewPagerAdapter(getSupportFragmentManager(),getLifecycle());
+        viewPager2.setAdapter(adapter);
 
-        chatUserModels = new ArrayList<>();
-        adapter = new FollowedUsersAdapter(chatUserModels);
-        recyclerView.setAdapter(adapter);
-
-        fetchFollowedUsers();
-    }
-
-    private void fetchFollowedUsers() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Follow")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("following");
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                chatUserModels.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.getValue(Boolean.class)) {
-                        String followedUserId = snapshot.getKey();
-                        ChatUserModel userModel = new ChatUserModel(followedUserId);
-                        chatUserModels.add(userModel);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.INVISIBLE);
-                recyclerView.setVisibility(View.VISIBLE);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId()==R.id.chat)
+                    viewPager2.setCurrentItem(0);
+                else
+                    viewPager2.setCurrentItem(1);
+                return true;
             }
+        });
 
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle possible errors.
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                switch (position) {
+                    case 0:
+                        bottomNavigationView.setSelectedItemId(R.id.chat);
+                        break;
+                    case 1:
+                        bottomNavigationView.setSelectedItemId(R.id.forum);
+                        break;
+                }
             }
         });
     }
