@@ -21,4 +21,9 @@ An android application that aimed to bridge the communication gaps across profes
 ### Communications
 * **CHAT**: Users can engage in real-time chatting with other users.
 * **FORUMS**: Multiple users can be part of discussion forums bound to a particular technical topic.
-  
+
+> [!IMPORTANT]
+> THIS REPOSITORY IS A TESTAMENT OF MY HARDWORK AND DEDICATION TOWARDS MOBILE APPLICATION DEVELOPMENT AS WELL AS OF MY GROWTH IN THE DOMAIN. MENTSYNC IS ONLY THE FIRST OF MANY MASTERPIECES TO COME!
+
+> [CAUTION]
+> COPYING OR ARTIFICIALIZING THE CODE IS STRICTLY PROHIBITED
