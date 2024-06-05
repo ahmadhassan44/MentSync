@@ -23,7 +23,7 @@ An android application that aimed to bridge the communication gaps across profes
 * **FORUMS**: Multiple users can be part of discussion forums bound to a particular technical topic.
 
 ## Demo Video
-(https://drive.google.com/file/d/1-A2FQNp-Hse8Rmo-NUCbYiQfqXrv8OXu/view?usp=drive_link)
+https://drive.google.com/file/d/1-A2FQNp-Hse8Rmo-NUCbYiQfqXrv8OXu/view?usp=drive_link
 
 > [!IMPORTANT]
 > THIS REPOSITORY IS A TESTAMENT OF MY HARDWORK AND DEDICATION TOWARDS MOBILE APPLICATION DEVELOPMENT AS WELL AS OF MY GROWTH IN THE DOMAIN. MENTSYNC IS ONLY THE FIRST OF MANY MASTERPIECES TO COME!
